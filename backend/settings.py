@@ -77,11 +77,13 @@ CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = [
     'https://localhost:3000',
+    'localhost:3000',
     'https://opustm.herokuapp.com',
     ]
 CSRF_TRUSTED_ORIGINS = [
     'https://localhost:3000',
     'https://opustm.herokuapp.com',
+    'localhost:3000',
     ]
 
 
