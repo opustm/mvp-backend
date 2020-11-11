@@ -1,3 +1,3 @@
 # sp-backend
-Rebuild of original django project
-initial setup followed this guide: https://medium.com/@dakota.lillie/django-react-jwt-authentication-5015ee00ef9a
+
+The staging branch acts as a way to test deployement before adding to main production branch. 
