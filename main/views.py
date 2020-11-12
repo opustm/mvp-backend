@@ -9,7 +9,7 @@ from .serializers import UserSerializer, UserSerializerWithToken
 from django.middleware.csrf import get_token
 
 def index(request):
-    return HttpResponse("Welcome to the main API")
+    return HttpResponse("Welcome to the OPUS-TM API")
 
 def csrf(request):
     return JsonResponse({'csrfToken': get_token(request)})
