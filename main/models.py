@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser, Group
 class User(AbstractUser):
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
-    phone = models.IntegerField(default=9119119111)
+    phone = models.BigIntegerField(default=9119119111)
 
 
 class MyGroup(Group):
