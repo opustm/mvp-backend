@@ -5,7 +5,7 @@ from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken
+from .serializers import TeamSerializer, UserSerializer, UserSerializerWithToken
 from django.middleware.csrf import get_token
 
 def index(request):
@@ -16,6 +16,10 @@ def csrf(request):
 
 def ping(request):
     return JsonResponse({'result': 'OK'})
+
+def team(request):
+    serializer=TeamSerializer(request)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def current_user(request):
