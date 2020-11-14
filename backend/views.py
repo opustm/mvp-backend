@@ -1,4 +1,4 @@
 from django.http import HttpResponseRedirect
 
 def documentation(request):
-    return HttpResponseRedirect("/main")
+    return HttpResponseRedirect("/admin")
