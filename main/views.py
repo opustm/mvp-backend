@@ -5,17 +5,21 @@ from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, UserSerializerWithToken
+from .serializers import TeamSerializer, UserSerializer, UserSerializerWithToken
 from django.middleware.csrf import get_token
 
 def index(request):
-    return HttpResponse("Welcome to the main API")
+    return HttpResponse("Welcome to the OPUS-TM API")
 
 def csrf(request):
     return JsonResponse({'csrfToken': get_token(request)})
 
 def ping(request):
     return JsonResponse({'result': 'OK'})
+
+def team(request):
+    serializer=TeamSerializer(request)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def current_user(request):

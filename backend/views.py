@@ -1,4 +1,4 @@
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 
-def index(request):
-    return HttpResponse("Welcome to the OPUS API")
+def documentation(request):
+    return HttpResponseRedirect("/admin")
