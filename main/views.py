@@ -17,8 +17,9 @@ def csrf(request):
 def ping(request):
     return JsonResponse({'result': 'OK'})
 
+@api_view(['GET'])
 def team(request):
-    serializer=TeamSerializer(request)
+    serializer=TeamSerializer(request.team)
     return Response(serializer.data)
 
 @api_view(['GET'])
