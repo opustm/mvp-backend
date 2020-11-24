@@ -5,7 +5,7 @@ urlpatterns = [
     path('', index),
     path('current_user/', current_user),
     path('users/', UserList.as_view()),
+    # path('team/', team),
     # path('csrf/', csrf),
     # path('ping/', ping),
-    path('team', team)
 ]
