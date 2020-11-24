@@ -1,12 +1,15 @@
 
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
-from django.contrib.auth.models import User
+from django.middleware.csrf import get_token
+from django.http import Http404
+
 from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from .models import User
 from .serializers import TeamSerializer, UserSerializer, UserSerializerWithToken
-from django.middleware.csrf import get_token
 
 def index(request):
     return HttpResponse("Welcome to the OPUS-TM API")
@@ -46,3 +49,23 @@ class UserList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, format=None):
+        allUsers = User.objects.all()
+        serializer = UserSerializer(allUsers, many=True)
+        return Response(serializer.data)
+
+
+class UserDetail(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, pk):
+        try:
+            return User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404("User does not exist")
+
+    def get(self, request, pk, format=None):
+        user = self.get_object(pk)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
