@@ -112,7 +112,7 @@ class EventList(APIView):
 
 class InvitationList(APIView):
     """
-    Create a new team. Get all teams.
+    Create a new invitation. Get all invitations.
     """
 
     permission_classes = (permissions.AllowAny,)

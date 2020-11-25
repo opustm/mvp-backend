@@ -44,7 +44,7 @@ class Event(models.Model):
 
 # class DailyAvailability(models.Model):
 #     available=BooleanField(null=True)
-#     midnight=BooleanField()
+#     zero=BooleanField()
 #     one=BooleanField()
 #     two=BooleanField()
 #     three=BooleanField()
