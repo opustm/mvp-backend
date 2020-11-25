@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import User, Team
+from .models import Event, Invitation, User, Team
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -12,6 +12,16 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ('id', 'name', 'picture', 'announcement')
+
+class InvitationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Invitation
+        fields = ('team', 'inviter', 'invitee_email', 'date_invited', 'code')
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ('team', 'name', 'start', 'end', 'details', 'invited', 'not_going', 'picture')
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 

@@ -13,6 +13,8 @@ def documentation(request):
             <ul><a href="/main/teams/1">/main/teams/&lt;teamid&gt;</a> Get team by primary key(team id).</ul>
             <ul><a href="/token-auth/">/token-auth/</a> API View that receives a POST with a user's username and password. Returns a JSON Web Token that can be used for authenticated requests.</ul>
             <ul><a href="/main/current_user/">/main/current_users/</a> Determine the current user by their token, and return their data</ul>
+            <ul><a href="/main/events/">/main/events/</a> Get and Post events.</ul>
+            <ul><a href="/main/invitations/">/main/teams/</a> Get and Post invitations.</ul>
         </body>
     </html>
     '''
