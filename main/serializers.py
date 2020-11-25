@@ -6,7 +6,7 @@ from .models import Event, Invitation, User, Team
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'is_active')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'is_active')
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,7 +24,6 @@ class EventSerializer(serializers.ModelSerializer):
         fields = ('team', 'name', 'start', 'end', 'details', 'invited', 'not_going', 'picture')
 
 class UserSerializerWithToken(serializers.ModelSerializer):
-
     token = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
