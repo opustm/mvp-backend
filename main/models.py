@@ -12,8 +12,8 @@ class User(AbstractUser):
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
     phone = models.CharField(max_length=100, default='123-456-7890')
-    groups = None
     teams = models.ManyToManyField(Team, related_name='teams')
+    # groups = None
 
 class Invitation(models.Model):#will need to delete each row once invitee_email joins team
     team =models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team_invitation')#ONE TEAM HAS MANY INVITATIONS (ONE2ONE)
