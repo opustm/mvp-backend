@@ -6,14 +6,12 @@ from .models import User, Team
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
-        # fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme')
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'is_active')
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
-        fields = '__all__'
-
+        fields = ('id', 'name', 'picture', 'announcement')
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 
