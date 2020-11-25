@@ -129,6 +129,22 @@ class InvitationList(APIView):
         serializer = InvitationSerializer(allInvitations, many=True)
         return Response(serializer.data)
 
+class InvitationDetail(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, email):
+        try:
+            return Invitation.objects.get(invitee_email=email)
+        except Invitation.DoesNotExist:
+            return False
+
+    def get(self, request, email, format=None):
+        inv = self.get_object(email)
+        if inv:
+            serializer = InvitationSerializer(inv)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 class TeamDetail(APIView):
     permission_classes = (permissions.AllowAny,)
 
