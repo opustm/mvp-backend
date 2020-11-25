@@ -37,8 +37,7 @@ def current_user(request):
 
 class UserList(APIView):
     """
-    Create a new user. It's called 'UserList' because normally we'd have a get
-    method here too, for retrieving a list of all User objects.
+    Create a new user. Get all Users.
     """
 
     permission_classes = (permissions.AllowAny,)
@@ -75,8 +74,7 @@ class UserDetail(APIView):
 
 class TeamList(APIView):
     """
-    Create a new user. It's called 'UserList' because normally we'd have a get
-    method here too, for retrieving a list of all User objects.
+    Create a new team. Get all teams.
     """
 
     permission_classes = (permissions.AllowAny,)
