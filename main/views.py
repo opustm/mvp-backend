@@ -63,12 +63,15 @@ class UserDetail(APIView):
         try:
             return User.objects.get(pk=pk)
         except User.DoesNotExist:
-            raise Http404("User does not exist")
+            return False
 
     def get(self, request, pk, format=None):
         user = self.get_object(pk)
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        if user:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 class TeamList(APIView):
     """
@@ -90,6 +93,7 @@ class TeamList(APIView):
         serializer = TeamSerializer(allUsers, many=True)
         return Response(serializer.data)
 
+
 class TeamDetail(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -97,9 +101,11 @@ class TeamDetail(APIView):
         try:
             return Team.objects.get(pk=pk)
         except Team.DoesNotExist:
-            raise Http404("Team does not exist")
+            return False
 
     def get(self, request, pk, format=None):
         team = self.get_object(pk)
-        serializer = TeamSerializer(team)
-        return Response(serializer.data)
+        if team:
+            serializer = TeamSerializer(team)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
