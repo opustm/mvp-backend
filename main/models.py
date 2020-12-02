@@ -42,44 +42,26 @@ class Event(models.Model):
 #     details = models.CharField(max_length=100, default='This event was so fun blah..')
 #     picture = models.CharField(max_length=100, default='pic1')
 
-# class DailyAvailability(models.Model):
-#     available=BooleanField(null=True)
-#     zero=BooleanField()
-#     one=BooleanField()
-#     two=BooleanField()
-#     three=BooleanField()
-#     four=BooleanField()
-#     five=BooleanField()
-#     six=BooleanField()
-#     seven=BooleanField()
-#     eight=BooleanField()
-#     nine=BooleanField()
-#     ten=BooleanField()
-#     eleven=BooleanField()
-#     twelve=BooleanField()
-#     thirteen=BooleanField()
-#     fourteen=BooleanField()
-#     fifteen=BooleanField()
-#     sixteen=BooleanField()
-#     seventeen=BooleanField()
-#     eighteen=BooleanField()
-#     nineteen=BooleanField()
-#     twenty=BooleanField()
-#     twentyone=BooleanField()
-#     twentytwo=BooleanField()
-#     twentythree=BooleanField()
-#     def __str__(self):
-#         return self.available
+class TimeFrame(models.Model):
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    def __str__(self):
+        return f'start:{self.start}\nend:{self.end}'
 
-# class WeeklyAvailability(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_availability')#ONE USER HAS MANY WEEK AVAILABILITIES
-#     week=models.DateField(("Date"), default=datetime.date.today)
-#     # available=BooleanField(default=True,null=True)
-#     sunday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE, related_name='sunday', default=DailyAvailability())
-#     monday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='monday', default=DailyAvailability())
-#     tuesday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='tuesday', default=DailyAvailability())
-#     wednesday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='wednesday', default=DailyAvailability())
-#     thursday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='thursday', default=DailyAvailability())
-#     friday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='friday', default=DailyAvailability())
-#     saturday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='saturday', default=DailyAvailability())
+class DailyAvailability(models.Model):
+    available = BooleanField(null=True)
+    availableTimeFrames = models.ManyToManyField(TimeFrame, related_name='available_times')
+    def __str__(self):
+        return f'Available:"{self.available}\n{self.availableTimeFrames}'
+
+class WeeklyAvailability(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_availability')#ONE USER HAS MANY WEEK AVAILABILITIES
+    week=models.DateField(("Date"), default=datetime.date.today)
+    sunday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE, related_name='sunday')
+    monday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='monday')
+    tuesday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='tuesday')
+    wednesday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='wednesday')
+    thursday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='thursday')
+    friday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='friday')
+    saturday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='saturday')
 
