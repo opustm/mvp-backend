@@ -12,6 +12,215 @@ from rest_framework import viewsets
 from .models import Event, Invitation, User, Team
 from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken
 
+
+
+class UserList(APIView):
+    """
+    Create a new user. Get all Users.
+    """
+
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = UserSerializerWithToken(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, format=None):
+        allUsers = User.objects.all()
+        serializer = UserSerializer(allUsers, many=True)
+        return Response(serializer.data)
+
+class UserDetail(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, email):
+        try:
+            return User.objects.get(email=email)
+        except User.DoesNotExist:
+            return False
+
+    def get(self, request, email, format=None):
+        user = self.get_object(email)
+        if user:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, email, format=None):
+        inv = self.get_object(email)
+        serializer = InvitationSerializer(inv, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, email, format=None):
+        inv = self.get_object(email)
+        inv.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+'''-------------------------------------------------------------------------'''
+
+class TeamList(APIView):
+    """
+    Create a new team. Get all teams.
+    """
+
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = TeamSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, format=None):
+        allUsers = Team.objects.all()
+        serializer = TeamSerializer(allUsers, many=True)
+        return Response(serializer.data)
+
+class TeamDetail(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, name):
+        try:
+            return Team.objects.get(name=name)
+        except Team.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        team = self.get_object(name)
+        if team:
+            serializer = TeamSerializer(team)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, name, format=None):
+        inv = self.get_object(name)
+        serializer = InvitationSerializer(inv, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, name, format=None):
+        inv = self.get_object(name)
+        inv.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+'''--------------------------------------------------------------------------------'''
+
+class InvitationList(APIView):
+    """
+    Create new invitation. Get all invitations.
+    """
+
+    permission_classes = (permissions.AllowAny,)
+
+    def get(self, request, format=None):
+        allInvitations = Invitation.objects.all()
+        serializer = InvitationSerializer(allInvitations, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = InvitationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class InvitationDetail(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, code):
+        try:
+            return Invitation.objects.get(code=code)
+        except Invitation.DoesNotExist:
+            return False
+
+    def get(self, request, code, format=None):
+        inv = self.get_object(code)
+        if inv:
+            serializer = InvitationSerializer(inv)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, code, format=None):
+        inv = self.get_object(code)
+        serializer = InvitationSerializer(inv, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, code, format=None):
+        inv = self.get_object(code)
+        inv.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class EventList(APIView):
+    """
+    Create a new Event. Get all Events.
+    """
+
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, format=None):
+        allEvents = Event.objects.all()
+        serializer = EventSerializer(allEvents, many=True)
+        return Response(serializer.data)
+
+class EventDetail(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, pk):
+        try:
+            return Event.objects.get(pk=pk)
+        except Event.DoesNotExist:
+            return False
+
+    def get(self, request, pk, format=None):
+        event = self.get_object(pk)
+        if event:
+            serializer = EventSerializer(event)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, pk, format=None):
+        event = self.get_object(pk)
+        serializer = EventSerializer(event, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        event = self.get_object(pk)
+        event.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
+'''-------------------------------------------------------------------------------------------------------------'''
+
+
+
+
+
 def index(request):
     return HttpResponse("Welcome to the OPUS-TM API")
 
@@ -34,132 +243,3 @@ def current_user(request):
     
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
-
-
-class UserList(APIView):
-    """
-    Create a new user. Get all Users.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = UserSerializerWithToken(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allUsers = User.objects.all()
-        serializer = UserSerializer(allUsers, many=True)
-        return Response(serializer.data)
-
-
-class UserDetail(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, pk):
-        try:
-            return User.objects.get(pk=pk)
-        except User.DoesNotExist:
-            return False
-
-    def get(self, request, pk, format=None):
-        user = self.get_object(pk)
-        if user:
-            serializer = UserSerializer(user)
-            return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-class TeamList(APIView):
-    """
-    Create a new team. Get all teams.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = TeamSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allUsers = Team.objects.all()
-        serializer = TeamSerializer(allUsers, many=True)
-        return Response(serializer.data)
-
-class EventList(APIView):
-    """
-    Create a new Event. Get all Events.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = EventSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allEvents = Event.objects.all()
-        serializer = EventSerializer(allEvents, many=True)
-        return Response(serializer.data)
-
-class InvitationList(APIView):
-    """
-    Create a new invitation. Get all invitations.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = InvitationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allInvitations = Invitation.objects.all()
-        serializer = InvitationSerializer(allInvitations, many=True)
-        return Response(serializer.data)
-
-class InvitationDetail(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, email):
-        try:
-            return Invitation.objects.get(invitee_email=email)
-        except Invitation.DoesNotExist:
-            return False
-
-    def get(self, request, email, format=None):
-        inv = self.get_object(email)
-        if inv:
-            serializer = InvitationSerializer(inv)
-            return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-class TeamDetail(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, pk):
-        try:
-            return Team.objects.get(pk=pk)
-        except Team.DoesNotExist:
-            return False
-
-    def get(self, request, pk, format=None):
-        team = self.get_object(pk)
-        if team:
-            serializer = TeamSerializer(team)
-            return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-
