@@ -43,13 +43,13 @@ class Event(models.Model):
 #     picture = models.CharField(max_length=100, default='pic1')
 
 class TimeFrame(models.Model):
+    day = models.ForeignKey(DailyAvailability)
     start = models.DateTimeField()
     end = models.DateTimeField()
     def __str__(self):
         return f'start:{self.start}\nend:{self.end}'
 
 class DailyAvailability(models.Model):
-    available = BooleanField(null=True)
     availableTimeFrames = models.ManyToManyField(TimeFrame, related_name='available_times')
     def __str__(self):
         return f'Available:"{self.available}\n{self.availableTimeFrames}'
