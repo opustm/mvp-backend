@@ -16,6 +16,8 @@ def documentation(request):
             <ul><a href="/main/events/">/main/events/</a> Get and Post events.</ul>
             <ul><a href="/main/invitations/">/main/invitations/</a> Get and Post invitations.</ul>
             <ul><a href="/main/invitations/vansjo01@luther.edu/">/main/invitations/&lt;inviteeEmail&gt;</a> Get invitation by invitee email. This shows that you can query table with values other than its primary key!</ul>
+            <ul><a href="/api/user/">/api/user/</a>Viewset to get all users. Needs to be tested with front-end as it cannot be tested locally.</ul>
+            <ul><a href="/api/user/">/api/user/&lt;userid&gt;</a>Viewset with CRUD. Make POST, GET, PUT, or DELETE requests for specific userid.  Needs to be tested with front-end as it cannot be tested locally.</ul>
         </body>
     </html>
     '''

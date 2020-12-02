@@ -8,6 +8,7 @@ class Team(Group):
     picture = models.CharField(max_length=100, default='pic1')
     announcement = models.CharField(max_length=100, default='This is a team')
 
+
 class User(AbstractUser):
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
@@ -42,17 +43,18 @@ class Event(models.Model):
 #     details = models.CharField(max_length=100, default='This event was so fun blah..')
 #     picture = models.CharField(max_length=100, default='pic1')
 
-class TimeFrame(models.Model):
-    day = models.ForeignKey(DailyAvailability)
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    def __str__(self):
-        return f'start:{self.start}\nend:{self.end}'
-
 class DailyAvailability(models.Model):
-    availableTimeFrames = models.ManyToManyField(TimeFrame, related_name='available_times')
+    day = models.DateField(default='2010-10-25')
     def __str__(self):
-        return f'Available:"{self.available}\n{self.availableTimeFrames}'
+        return f'Day: {day}'
+
+class TimeFrame(models.Model):
+    day = models.ForeignKey(DailyAvailability, on_delete=models.CASCADE, related_name='day_av',default=1)
+    start = models.DateTimeField(default='2010-10-25 09:00:00')
+    end = models.DateTimeField(default='2010-10-25 17:00:00')
+    def __str__(self):
+        return f'Start:{self.start}\nEnd:{self.end}'
+
 
 class WeeklyAvailability(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_availability')#ONE USER HAS MANY WEEK AVAILABILITIES

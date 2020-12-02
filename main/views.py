@@ -7,6 +7,7 @@ from rest_framework import permissions, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import viewsets
 
 from .models import Event, Invitation, User, Team
 from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken
@@ -160,3 +161,5 @@ class TeamDetail(APIView):
             serializer = TeamSerializer(team)
             return Response(serializer.data)
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
