@@ -56,7 +56,7 @@ class DailyAvailability(models.Model):
 
 class WeeklyAvailability(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_availability')#ONE USER HAS MANY WEEK AVAILABILITIES
-    week=models.DateField(("Date"), default=datetime.date.today)
+    week = models.DateField(("Date"), default=datetime.date.today)
     sunday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE, related_name='sunday')
     monday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='monday')
     tuesday = models.OneToOneField(DailyAvailability, on_delete=models.CASCADE,related_name='tuesday')
