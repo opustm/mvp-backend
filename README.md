@@ -24,9 +24,8 @@
 - /schedulesByUsername/&lt;username&gt;/
 
 ## DEPLOYMENT: 
-For now we have stuck to Heroku for the sake of familiarity. Future plans possibly include deplyment on AWS. To ensure that we always have a working build, the main and staging branches are hosted on two different heroku deployments:
-[Production Build(main branch)](https://opustm-api.herokuapp.com/)
-[Staging Build(staging branch)](https://opustm-api-staging.herokuapp.com/)
+For now we have stuck to Heroku for the sake of familiarity. Future plans possibly include deplyment on AWS. To ensure that we always have a working build, we also deploy a staging build to use in development:
+[Staging Build](https://opustm-api-staging.herokuapp.com/)
 
 ## DATABASE: 
 PostgreSQL. We mainly decided on this because of the ease of access with Heroku. However, we are also able to configure Django to run SQLite when testing locally. The pros and cons of each are described well in this [article](https://tableplus.com/blog/2018/08/sqlite-vs-postgresql-which-database-to-use-and-why.html)
