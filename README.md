@@ -5,24 +5,24 @@
 # API ROUTES:
 ## User
 - /users/
-- /user/<userId>/
-- /user/<userName>/
+- /user/\<userId\>/
+- /user/\<userName\>/
 ## Team
 - /teams/
-- /team/<teamId>/
-- /team/<teamName>/
-- /teamMembers/<teamName>/
+- /team/&lt;teamId/
+- /team/&lt;teamName&gt;/
+- /teamMembers/&lt;teamName&gt;/
 ## Invitation
 - /invitations/
-- /invitation/<invitationId>/
-- /invitation/<invitationCode>/
+- /invitation/&lt;invitationId&gt;/
+- /invitation/&lt;invitationCode&gt;/
 ## Event
 - /events/
-- /events/<eventId>/
+- /events/&lt;eventId&gt;/
 ## Schedule
 - /schedules/
-- /schedules/<scheduleId>/
-- /schedulesByUsername/<username>/
+- /schedules/&lt;scheduleId&gt;/
+- /schedulesByUsername/&lt;username&gt;/
 
 ## DEPLOYMENT: 
 For now we have stuck to Heroku for the sake of familiarity. Future plans possibly include deplyment on AWS. To ensure that we always have a working build, the main and staging branches are hosted on two different heroku deployments:
