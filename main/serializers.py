@@ -1,17 +1,12 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, Invitation, User, Team, WeeklyAvailability
-
-class UserSerializerTest(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'is_active') 
+from .models import Event, Invitation, User, Team, Schedule
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme')
-        # fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'is_active') 
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'is_active') 
+        # fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme')
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,12 +22,12 @@ class InvitationSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = ('team', 'name', 'start', 'end', 'details', 'invited', 'not_going', 'picture')
+        fields = '__all__'
 
-class WeeklyAvailabilitySerializer(serializers.ModelSerializer):
+class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = WeeklyAvailability
-        fields = ('user', 'week', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday')
+        model = Schedule
+        fields = '__all__'
 
 class UserSerializerWithToken(serializers.ModelSerializer):
     token = serializers.SerializerMethodField()

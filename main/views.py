@@ -253,12 +253,6 @@ class EventDetail(APIView):
 def index(request):
     return HttpResponse("Welcome to the OPUS-TM API")
 
-def csrf(request):
-    return JsonResponse({'csrfToken': get_token(request)})
-
-def ping(request):
-    return JsonResponse({'result': 'OK'})
-
 @api_view(['GET'])
 def team(request):
     serializer=TeamSerializer(request.team)

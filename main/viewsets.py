@@ -8,7 +8,7 @@ class TeamViewset(viewsets.ModelViewSet):
     
 class UserViewset(viewsets.ModelViewSet):
     queryset= models.User.objects.all()
-    serializer_class = serializers.UserSerializerTest
+    serializer_class = serializers.UserSerializer
 
 class InvitationViewset(viewsets.ModelViewSet):
     queryset= models.Invitation.objects.all()
@@ -18,6 +18,6 @@ class EventViewset(viewsets.ModelViewSet):
     queryset= models.Event.objects.all()
     serializer_class = serializers.EventSerializer
 
-class WeeklyAvailabilityViewset(viewsets.ModelViewSet):
-    queryset= models.WeeklyAvailability.objects.all()
-    serializer_class = serializers.WeeklyAvailabilitySerializer
+class ScheduleViewset(viewsets.ModelViewSet):
+    queryset= models.Schedule.objects.all()
+    serializer_class = serializers.ScheduleSerializer
