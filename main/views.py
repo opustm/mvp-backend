@@ -124,10 +124,10 @@ class TeamMembersByTeamId(APIView):
 
 class TeamMembersByTeamname(APIView):
     permission_classes = (permissions.AllowAny,)
-    def get(self, request, teamname, format=None):
-        teamQuerySet = Team.objects.values('id', 'teamname')
+    def get(self, request, name, format=None):
+        teamQuerySet = Team.objects.values('id', 'name')
         for team in teamQuerySet:
-            if team['teamname']==teamname:
+            if team['name']==name:
                 teamid=team['id']
         if teamid:
             userQuerySet=User.objects.values('username', 'teams')
