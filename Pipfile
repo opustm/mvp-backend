@@ -30,7 +30,6 @@ lockfile = "==0.12.2"
 msgpack = "==0.6.2"
 pep517 = "==0.8.2"
 progress = "==1.5"
-psycopg2 = "==2.8.6"
 pycparser = "==2.20"
 PyJWT = "==1.7.1"
 pyparsing = "==2.4.6"
@@ -44,6 +43,7 @@ toml = "==0.10.1"
 urllib3 = "==1.25.8"
 webencodings = "==0.5.1"
 whitenoise = "==5.2.0"
+psycopg2-binary = "*"
 
 [dev-packages]
 
