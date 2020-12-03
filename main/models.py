@@ -21,7 +21,7 @@ class Invitation(models.Model):#will need to delete each row once invitee_email 
     inviter=models.ForeignKey(User, on_delete=models.CASCADE, related_name='inviter')
     invitee_email=models.CharField(max_length=100, default='vansjo01@luther.edu')
     date_invited=models.DateTimeField()
-    code=models.CharField(max_length=6, default='abc123')
+    code=models.CharField(max_length=6, unique=True)
     def __str__(self):
         return '{} invited to {} by {}'.format(self.invitee_email, self.team, self.inviter)
 
@@ -38,15 +38,11 @@ class Event(models.Model):
     def __str__(self):
         return f"{self.name} for team: {self.team}"
 
-# class EventNotes(models.Model):
-#     note_poster=models.ManyToManyField(User, on_delete=models.CASCADE)
-#     details = models.CharField(max_length=100, default='This event was so fun blah..')
-#     picture = models.CharField(max_length=100, default='pic1')
 
 class DailyAvailability(models.Model):
     day = models.DateField(default='2010-10-25')
     def __str__(self):
-        return f'Day: {day}'
+        return f'Day: {self.day}'
 
 class TimeFrame(models.Model):
     day = models.ForeignKey(DailyAvailability, on_delete=models.CASCADE, related_name='day_av',default=1)

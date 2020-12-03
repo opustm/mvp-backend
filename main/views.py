@@ -36,29 +36,29 @@ class UserList(APIView):
 class UserDetail(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get_object(self, email):
+    def get_object(self, username):
         try:
-            return User.objects.get(email=email)
+            return User.objects.get(username=username)
         except User.DoesNotExist:
             return False
 
-    def get(self, request, email, format=None):
-        user = self.get_object(email)
+    def get(self, request, username, format=None):
+        user = self.get_object(username)
         if user:
             serializer = UserSerializer(user)
             return Response(serializer.data)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def put(self, request, email, format=None):
-        inv = self.get_object(email)
+    def put(self, request, username, format=None):
+        inv = self.get_object(username)
         serializer = InvitationSerializer(inv, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, email, format=None):
-        inv = self.get_object(email)
+    def delete(self, request, username, format=None):
+        inv = self.get_object(username)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -79,8 +79,8 @@ class TeamList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, format=None):
-        allUsers = Team.objects.all()
-        serializer = TeamSerializer(allUsers, many=True)
+        allTeams = Team.objects.all()
+        serializer = TeamSerializer(allTeams, many=True)
         return Response(serializer.data)
 
 class TeamDetail(APIView):
@@ -111,6 +111,33 @@ class TeamDetail(APIView):
         inv = self.get_object(name)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class TeamMembersByTeamId(APIView):
+
+    def get(self, request, teamid, format=None):
+        userQuerySet=User.objects.values('username', 'teams')
+        members=[]
+        for user in userQuerySet:
+            if user["teams"]==teamid:
+                members.append(user["username"])
+        return Response(members, status=status.HTTP_200_OK)
+
+class TeamMembersByTeamName(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, name, format=None):
+        teamQuerySet = Team.objects.values('id', 'name')
+        for team in teamQuerySet:
+            if team['name']==name:
+                teamid=team['id']
+        if teamid:
+            userQuerySet=User.objects.values('username', 'teams')
+            members=[]
+            for user in userQuerySet:
+                if user["teams"]==teamid:
+                    members.append(user["username"])
+            return Response(members, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 '''--------------------------------------------------------------------------------'''
 
@@ -162,6 +189,8 @@ class InvitationDetail(APIView):
         inv = self.get_object(code)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+'''------------------------------------------------------------------------------------------'''
 
 class EventList(APIView):
     """
