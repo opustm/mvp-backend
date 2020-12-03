@@ -2,8 +2,8 @@ from main.viewsets import TeamViewset, UserViewset, InvitationViewset, EventView
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register('team', TeamViewset)
-router.register('user', UserViewset)
-router.register('invitation', InvitationViewset)
-router.register('event', EventViewset)
-router.register('availability', WeeklyAvailabilityViewset)
+router.register('teams', TeamViewset)
+router.register('users', UserViewset)
+router.register('invitations', InvitationViewset)
+router.register('events', EventViewset)
+router.register('availabilitys', WeeklyAvailabilityViewset)

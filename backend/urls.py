@@ -6,8 +6,8 @@ from .router import router
 
 urlpatterns = [
     path('', documentation, name='documentation'),
+    path('', include('main.urls')),
+    path('', include(router.urls)),
     path('admin/', admin.site.urls),
-    path('main/', include('main.urls')),
-    path('token-auth/', obtain_jwt_token),
-    path('api/', include(router.urls))
+    path('token-auth/', obtain_jwt_token)
 ]
