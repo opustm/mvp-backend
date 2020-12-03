@@ -40,6 +40,7 @@ def documentation(request):
             <ul>
                 <li><a href="/schedules/">/schedules/</a></li>
                 <li><a href="/schedules/1/">/schedules/&lt;scheduleId&gt;/</a></li>
+                <li><a href="/schedulesByUsername/user0/">/schedulesByUsername/&lt;username&gt;/</a></li>
             </ul>
         </body>
     </html>

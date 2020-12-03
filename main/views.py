@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, Team
-from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken
+from .models import Event, Invitation, User, Team, Schedule
+from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken, ScheduleSerializer
 
 
 
@@ -100,20 +100,20 @@ class TeamDetail(APIView):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, name, format=None):
-        inv = self.get_object(name)
-        serializer = InvitationSerializer(inv, data=request.data)
+        team = self.get_object(name)
+        serializer = TeamSerializer(team, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, name, format=None):
-        inv = self.get_object(name)
-        inv.delete()
+        team = self.get_object(name)
+        team.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+#WE ALREADY HAVE THIS ONE WITH DEFAULT VIEWSET:
 class TeamMembersByTeamId(APIView):
-
     def get(self, request, teamid, format=None):
         userQuerySet=User.objects.values('username', 'teams')
         members=[]
@@ -122,12 +122,12 @@ class TeamMembersByTeamId(APIView):
                 members.append(user["username"])
         return Response(members, status=status.HTTP_200_OK)
 
-class TeamMembersByTeamName(APIView):
+class TeamMembersByTeamname(APIView):
     permission_classes = (permissions.AllowAny,)
-    def get(self, request, name, format=None):
-        teamQuerySet = Team.objects.values('id', 'name')
+    def get(self, request, teamname, format=None):
+        teamQuerySet = Team.objects.values('id', 'teamname')
         for team in teamQuerySet:
-            if team['name']==name:
+            if team['teamname']==teamname:
                 teamid=team['id']
         if teamid:
             userQuerySet=User.objects.values('username', 'teams')
@@ -241,7 +241,72 @@ class EventDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+'''-------------------------------------------------------------------------'''
+class ScheduleList(APIView):
+    """
+    Create a new Schedule. Get all Schedules.
+    """
 
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request, format=None):
+        serializer = ScheduleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request, format=None):
+        allSchedules = Schedule.objects.all()
+        serializer = ScheduleSerializer(allSchedules, many=True)
+        return Response(serializer.data)
+
+class ScheduleDetail(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, name):
+        try:
+            return Schedule.objects.get(name=name)
+        except Schedule.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        schedule = self.get_object(name)
+        if schedule:
+            serializer = ScheduleSerializer(schedule)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, name, format=None):
+        inv = self.get_object(name)
+        serializer = ScheduleSerializer(inv, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, name, format=None):
+        inv = self.get_object(name)
+        inv.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class SchedulesByUsername(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request, username, format=None):
+        scheduleQuerySet = Schedule.objects.values('id', 'user')
+        usersSchedules=[]
+        for schedule in scheduleQuerySet:
+            if schedule['user']==1:#If schedule has matching user to input***************still working here
+                usersSchedules.append(schedule['id'])
+        if usersSchedules:
+            # userQuerySet=User.objects.values('username', 'schedules')
+            # members=[]
+            # for user in userQuerySet:
+            #     if user["schedules"]==scheduleid:
+            #         members.append(user["username"])
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 '''-------------------------------------------------------------------------------------------------------------'''
