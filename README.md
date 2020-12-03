@@ -1,6 +1,5 @@
-# mvp-backend
-
-### This repository is home to the Django REST API that serves our React Web App: [OpusTm](https://opustm.herokuapp.com/)
+## This Repo is home to the opus-tm Django REST API:[API](https://opustm-api.herokuapp.com/)
+## This API serves our React Web App: [OpusTm](https://opustm.herokuapp.com/)
 
 # API ROUTES:
 ## User
