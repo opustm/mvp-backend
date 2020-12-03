@@ -39,28 +39,26 @@ class Event(models.Model):
         return f"{self.name} for team: {self.team}"
 
 
-class Day(models.Model):
-    available = BooleanField(default=True)
+class DaySchedule(models.Model):
+    available = BooleanField(default=False)
     day = models.DateField(default='2010-10-25')
     def __str__(self):
         return f'Day: {self.day}'
 
 class TimeFrame(models.Model):
-    day = models.ForeignKey(Day, on_delete=models.CASCADE, related_name='day_av',default=1)
+    day = models.ForeignKey(DaySchedule, on_delete=models.CASCADE, related_name='day_av',default=1)
     start = models.DateTimeField(default='2010-10-25 09:00:00')
     end = models.DateTimeField(default='2010-10-25 17:00:00')
     def __str__(self):
         return f'Start:{self.start}\nEnd:{self.end}'
 
-
-class Schedule(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_availability')#ONE USER HAS MANY WEEK AVAILABILITIES
-    weekstart = models.DateField(("Date"), default=datetime.date.today)
-    sunday = models.OneToOneField(Day, on_delete=models.CASCADE, related_name='sunday')
-    monday = models.OneToOneField(Day, on_delete=models.CASCADE,related_name='monday')
-    tuesday = models.OneToOneField(Day, on_delete=models.CASCADE,related_name='tuesday')
-    wednesday = models.OneToOneField(Day, on_delete=models.CASCADE,related_name='wednesday')
-    thursday = models.OneToOneField(Day, on_delete=models.CASCADE,related_name='thursday')
-    friday = models.OneToOneField(Day, on_delete=models.CASCADE,related_name='friday')
-    saturday = models.OneToOneField(Day, on_delete=models.CASCADE,related_name='saturday')
+class WeekSchedule(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_schedule')
+    sunday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE, related_name='sunday')
+    monday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='monday')
+    tuesday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='tuesday')
+    wednesday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='wednesday')
+    thursday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='thursday')
+    friday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='friday')
+    saturday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='saturday')
 

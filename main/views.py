@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, Team, Schedule
-from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken, ScheduleSerializer
+from .models import Event, Invitation, User, Team, WeekSchedule
+from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken, WeekScheduleSerializer
 
 
 
@@ -242,7 +242,7 @@ class EventDetail(APIView):
 
 
 '''-------------------------------------------------------------------------'''
-class ScheduleList(APIView):
+class WeekScheduleList(APIView):
     """
     Create a new Schedule. Get all Schedules.
     """
@@ -250,7 +250,7 @@ class ScheduleList(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
-        serializer = ScheduleSerializer(data=request.data)
+        serializer = WeekScheduleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -258,28 +258,28 @@ class ScheduleList(APIView):
 
     def get(self, request, format=None):
         allSchedules = Schedule.objects.all()
-        serializer = ScheduleSerializer(allSchedules, many=True)
+        serializer = WeekScheduleSerializer(allSchedules, many=True)
         return Response(serializer.data)
 
-class ScheduleDetail(APIView):
+class WeekScheduleDetail(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get_object(self, name):
         try:
-            return Schedule.objects.get(name=name)
-        except Schedule.DoesNotExist:
+            return WeekSchedule.objects.get(name=name)
+        except WeekSchedule.DoesNotExist:
             return False
 
     def get(self, request, name, format=None):
         schedule = self.get_object(name)
         if schedule:
-            serializer = ScheduleSerializer(schedule)
+            serializer = WeekScheduleSerializer(schedule)
             return Response(serializer.data)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request, name, format=None):
         inv = self.get_object(name)
-        serializer = ScheduleSerializer(inv, data=request.data)
+        serializer = WeekScheduleSerializer(inv, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -290,10 +290,10 @@ class ScheduleDetail(APIView):
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class SchedulesByUsername(APIView):
+class WeekSchedulesByUsername(APIView):
     permission_classes = (permissions.AllowAny,)
     def get(self, request, username, format=None):
-        scheduleQuerySet = Schedule.objects.values('id', 'user')
+        scheduleQuerySet = WeekSchedule.objects.values('id', 'user')
         usersSchedules=[]
         for schedule in scheduleQuerySet:
             if schedule['user']==1:#If schedule has matching user to input***************still working here

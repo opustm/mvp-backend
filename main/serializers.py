@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, Invitation, User, Team, Schedule
+from .models import Event, Invitation, User, Team, WeekSchedule
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -24,9 +24,9 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
-class ScheduleSerializer(serializers.ModelSerializer):
+class WeekScheduleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Schedule
+        model = WeekSchedule
         fields = '__all__'
 
 class UserSerializerWithToken(serializers.ModelSerializer):

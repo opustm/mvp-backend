@@ -23,7 +23,7 @@ class EventViewset(viewsets.ModelViewSet):
     queryset= models.Event.objects.all()
     serializer_class = serializers.EventSerializer
 
-class ScheduleViewset(viewsets.ModelViewSet):
+class WeekScheduleViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset= models.Schedule.objects.all()
-    serializer_class = serializers.ScheduleSerializer
+    queryset= models.WeekSchedule.objects.all()
+    serializer_class = serializers.WeekScheduleSerializer
