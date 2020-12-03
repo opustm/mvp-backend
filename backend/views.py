@@ -36,6 +36,7 @@ def documentation(request):
                 <li><a href="/events/">/events/</a></li>
                 <li><a href="/events/1/">/events/&lt;eventId&gt;/</a></li>
             </ul>
+            <h3>Schedule</h3>
             <ul>
                 <li><a href="/schedules/">/schedules/</a></li>
                 <li><a href="/schedules/1/">/schedules/&lt;scheduleId&gt;/</a></li>
