@@ -4,18 +4,44 @@ def documentation(request):
     html = '''
     
     <html>
+        <head>
+            <title>OpusAPI</title>
+        </head>
         <body>
-            <h1>Routes</h1>
-            <ul><a href="/admin/">/admin/</a> Django admin. Manage the database with an easy to use gui.</ul>
-            <ul><a href="/main/users/">/main/users/</a> Get all users. Also, create a new user.</ul>
-            <ul><a href="/main/users/1">/main/users/&lt;userid&gt;</a> Get user by primary key(user id).</ul>
-            <ul><a href="/main/teams/">/main/teams/</a> Get all teams. Also, create a new team.</ul>
-            <ul><a href="/main/teams/1">/main/teams/&lt;teamid&gt;</a> Get team by primary key(team id).</ul>
-            <ul><a href="/token-auth/">/token-auth/</a> API View that receives a POST with a user's username and password. Returns a JSON Web Token that can be used for authenticated requests.</ul>
-            <ul><a href="/main/current_user/">/main/current_users/</a> Determine the current user by their token, and return their data</ul>
-            <ul><a href="/main/events/">/main/events/</a> Get and Post events.</ul>
-            <ul><a href="/main/invitations/">/main/invitations/</a> Get and Post invitations.</ul>
-            <ul><a href="/main/invitations/vansjo01@luther.edu/">/main/invitations/&lt;inviteeEmail&gt;</a> Get invitation by invitee email. This shows that you can query table with values other than its primary key!</ul>
+            <p><a href="/admin/">/admin/</a> Django admin. Manage the database with a user friendly gui.</p>
+            <a href="/token-auth/">/token-auth/</a> API View that receives a POST with a user's username and password. Returns a JSON Web Token that can be used for authenticated requests.
+
+            <h1>Custom Views</h1>
+            <h3>User</h3>
+            <ul>
+                <li><a href="/users/">/users/</a></li>
+                <li><a href="/users/1/">/user/&lt;userId&gt;/</a></li>
+                <li><a href="/user/asdf/">/user/&lt;userName&gt;/</a></li>
+            </ul>
+            <h3>Team</h3>
+            <ul>
+                <li><a href="/teams/">/teams/</a></li>
+                <li><a href="/teams/1/">/team/&lt;teamId&gt;/</a></li>
+                <li><a href="/team/FlatEarthers/">/team/&lt;teamName&gt;/</a></li>
+                <li><a href="/teamMembers/FlatEarthers/">/teamMembers/&lt;teamName&gt;/</a></li>
+            </ul>
+            <h3>Invitation</h3>
+            <ul>
+                <li><a href="/invitations/">/invitations/</a></li>
+                <li><a href="/invitations/1/">/invitation/&lt;invitationId&gt;/</a></li>
+                <li><a href="/invitation/abc123/">/invitation/&lt;invitationCode&gt;/</a></li>
+            </ul>
+            <h3>Event</h3>
+            <ul>
+                <li><a href="/events/">/events/</a></li>
+                <li><a href="/events/1/">/events/&lt;eventId&gt;/</a></li>
+            </ul>
+            <h3>Schedule</h3>
+            <ul>
+                <li><a href="/schedules/">/schedules/</a></li>
+                <li><a href="/schedules/1/">/schedules/&lt;scheduleId&gt;/</a></li>
+                <li><a href="/schedulesByUsername/user0/">/schedulesByUsername/&lt;username&gt;/</a></li>
+            </ul>
         </body>
     </html>
     '''
