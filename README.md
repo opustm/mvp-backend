@@ -2,24 +2,24 @@
 
 ### This repository is home to the Django REST API that serves our React Web App: [OpusTm](https://opustm.herokuapp.com/)
 
-## API ROUTES:
-# User
+# API ROUTES:
+## User
 - /users/
 - /user/<userId>/
 - /user/<userName>/
-# Team
+## Team
 - /teams/
 - /team/<teamId>/
 - /team/<teamName>/
 - /teamMembers/<teamName>/
-# Invitation
+## Invitation
 - /invitations/
 - /invitation/<invitationId>/
 - /invitation/<invitationCode>/
-# Event
+## Event
 - /events/
 - /events/<eventId>/
-# Schedule
+## Schedule
 - /schedules/
 - /schedules/<scheduleId>/
 - /schedulesByUsername/<username>/
