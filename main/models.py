@@ -17,12 +17,11 @@ class User(AbstractUser):
 class Invitation(models.Model):#will need to delete each row once invitee_email joins team
     team =models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team_invitation')#ONE TEAM HAS MANY INVITATIONS (ONE2ONE)
     inviter=models.ForeignKey(User, on_delete=models.CASCADE, related_name='inviter')
-    invitee_email=models.CharField(max_length=100, default='vansjo01@luther.edu')
+    invitee_email=models.CharField(max_length=100, default='asdf@example.com')
     date_invited=models.DateTimeField()
     code=models.CharField(max_length=6, unique=True)
     def __str__(self):
         return '{} invited to {} by {}'.format(self.invitee_email, self.team, self.inviter)
-
 
 class Event(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='team_event')#ONE TEAM HAS MANY EVENTS (ONE2ONE)
@@ -35,6 +34,18 @@ class Event(models.Model):
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
         return f"{self.name} for team: {self.team}"
+
+class UserEvent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent')#ONE TEAM HAS MANY EVENTS (ONE2ONE)
+    name = models.CharField(max_length=100, default='New Event')
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    invited = models.ManyToManyField(User, related_name='userEventInvited')
+    not_going = models.ManyToManyField(User, related_name='usersNotGoing')
+    details = models.CharField(max_length=100, default='This event is blah blah blah..')
+    picture = models.CharField(max_length=100, default='pic1')
+    def __str__(self):
+        return f"{self.name} for user: {self.user}"
 
 class ScheduleTimeFrame(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='scheduletimeframeuser')

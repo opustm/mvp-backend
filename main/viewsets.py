@@ -23,7 +23,14 @@ class EventViewset(viewsets.ModelViewSet):
     queryset= models.Event.objects.all()
     serializer_class = serializers.EventSerializer
 
+class UserEventViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.UserEvent.objects.all()
+    serializer_class = serializers.UserEventSerializer
+
 class ScheduleTimeFrameViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     queryset= models.ScheduleTimeFrame.objects.all()
     serializer_class = serializers.ScheduleTimeFrameSerializer
+
+
