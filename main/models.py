@@ -6,7 +6,6 @@ import datetime
 
 class Team(Group):
     picture = models.CharField(max_length=100, default='pic1')
-    announcement = models.CharField(max_length=100, default='This is a team')
 
 
 class User(AbstractUser):
@@ -40,25 +39,39 @@ class Event(models.Model):
 
 
 class DaySchedule(models.Model):
-    available = BooleanField(default=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dayscheduleuser', default=1)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='weekscheduleuser', default=1)
+    available = BooleanField(default=True)
     day = models.DateField(default='2010-10-25')
     def __str__(self):
-        return f'Day: {self.day}'
+        return f'{self.user}\'s schedule for {self.team}. Day Availability: {self.available}.'
 
-class TimeFrame(models.Model):
-    day = models.ForeignKey(DaySchedule, on_delete=models.CASCADE, related_name='day_av',default=1)
-    start = models.DateTimeField(default='2010-10-25 09:00:00')
-    end = models.DateTimeField(default='2010-10-25 17:00:00')
+class DayTimeFrame(models.Model):
+    dayschedule = models.ForeignKey(DaySchedule, on_delete=models.CASCADE, related_name='daytimeframe')
+    start = models.TimeField()
+    end = models.TimeField()
     def __str__(self):
-        return f'Start:{self.start}\nEnd:{self.end}'
+        return f'{self.dayschedule} Available from {self.start} to {self.end}'
 
 class WeekSchedule(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_schedule')
-    sunday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE, related_name='sunday')
-    monday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='monday')
-    tuesday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='tuesday')
-    wednesday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='wednesday')
-    thursday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='thursday')
-    friday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='friday')
-    saturday = models.OneToOneField(DaySchedule, on_delete=models.CASCADE,related_name='saturday')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userweekschedule')
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='weekscheduleforteam', default=1)
+    userTeamValuesDupeCheck = models.CharField(max_length=100, unique=True)
+    def __str__(self):
+        return f'{self.user}\'s schedule for {self.team}'
+
+class WeekTimeFrame(models.Model):
+    weekschedule = models.ForeignKey(WeekSchedule, on_delete=models.CASCADE, related_name='weektimeframe')
+    weekday = models.CharField(max_length=15, choices=[("sunday","SUNDAY"), ("monday","MONDAY"), ("tuesday","TUESDAY"), ("wednesday","WEDNESDAY"), ("thursday","THURSDAY"), ("friday","FRIDAY"), ("saturday","SATURDAY")], default=("sunday","SUNDAY"))
+    start = models.TimeField()
+    end = models.TimeField()
+    def __str__(self):
+        return f'{self.weekschedule} on {self.weekday}. Available from {self.start} to {self.end}'
+
+class Announcement(models.Model):
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='teamevent')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_announcement')
+    announcement = models.CharField(max_length=100, default='This is a reminder to do your hw')
+    def __str__(self):
+        return f'{self.team}: {self.announcement} with event {self.event}'
 
