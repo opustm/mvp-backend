@@ -27,3 +27,18 @@ class WeekScheduleViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     queryset= models.WeekSchedule.objects.all()
     serializer_class = serializers.WeekScheduleSerializer
+
+class WeekTimeFrameViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.WeekSchedule.objects.all()
+    serializer_class = serializers.WeekScheduleSerializer
+
+class DayScheduleViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.WeekSchedule.objects.all()
+    serializer_class = serializers.WeekScheduleSerializer
+
+class DayTimeFrameViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.WeekSchedule.objects.all()
+    serializer_class = serializers.WeekScheduleSerializer

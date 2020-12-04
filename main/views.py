@@ -257,7 +257,7 @@ class WeekScheduleList(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, format=None):
-        allSchedules = Schedule.objects.all()
+        allSchedules = WeekSchedule.objects.all()
         serializer = WeekScheduleSerializer(allSchedules, many=True)
         return Response(serializer.data)
 
@@ -292,21 +292,36 @@ class WeekScheduleDetail(APIView):
 
 class WeekSchedulesByUsername(APIView):
     permission_classes = (permissions.AllowAny,)
+    def get_object(self, scheduleid):
+        try:
+            return WeekSchedule.objects.get(id=scheduleid)
+        except WeekSchedule.DoesNotExist:
+            return False
+
     def get(self, request, username, format=None):
-        scheduleQuerySet = WeekSchedule.objects.values('id', 'user')
-        usersSchedules=[]
-        for schedule in scheduleQuerySet:
-            if schedule['user']==1:#If schedule has matching user to input***************still working here
-                usersSchedules.append(schedule['id'])
-        if usersSchedules:
-            # userQuerySet=User.objects.values('username', 'schedules')
-            # members=[]
-            # for user in userQuerySet:
-            #     if user["schedules"]==scheduleid:
-            #         members.append(user["username"])
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+        userQuerySet = User.objects.values('id', 'username')
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            weekScheduleQuerySet = WeekSchedule.objects.values('user', 'id')
+            idsOfUserSchedules=[]
+            for schedule in weekScheduleQuerySet:
+                if schedule['user']==userid:
+                    idsOfUserSchedules.append(schedule['id'])
+            if idsOfUserSchedules:
+                schedules=[]
+                for scheduleid in idsOfUserSchedules:
+                    schedules.append(WeekScheduleSerializer(self.get_object(scheduleid)).data)
+                if schedules:
+                    print(schedules)
+                    return Response(schedules, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+        
+
+
+
+
 
 
 '''-------------------------------------------------------------------------------------------------------------'''

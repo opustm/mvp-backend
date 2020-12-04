@@ -38,9 +38,9 @@ def documentation(request):
             </ul>
             <h3>Schedule</h3>
             <ul>
-                <li><a href="/schedules/">/schedules/</a></li>
-                <li><a href="/schedules/1/">/schedules/&lt;scheduleId&gt;/</a></li>
-                <li><a href="/schedulesByUsername/user0/">/schedulesByUsername/&lt;username&gt;/</a></li>
+                <li><a href="/weekschedules/">/weekschedules/</a></li>
+                <li><a href="/weekschedules/1/">/weekschedules/&lt;scheduleId&gt;/</a></li>
+                <li><a href="/weekSchedulesByUsername/user0/">/weekSchedulesByUsername/&lt;username&gt;/</a></li>
             </ul>
         </body>
     </html>

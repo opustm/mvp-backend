@@ -21,7 +21,7 @@
 ## Schedule
 - /schedules/
 - /schedules/&lt;scheduleId&gt;/
-- /schedulesByUsername/&lt;username&gt;/
+- /weekSchedulesByUsername/&lt;username&gt;/
 
 ## DEPLOYMENT: 
 For now we have stuck to Heroku for the sake of familiarity. Future plans possibly include deplyment on AWS. To ensure that we always have a working build, we also deploy a staging build to use in development:

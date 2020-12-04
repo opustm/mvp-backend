@@ -10,5 +10,5 @@ urlpatterns = [
     path('invitation/<str:code>/', InvitationDetail.as_view()),
     path('event/<int:pk>/', EventDetail.as_view()),
     path('schedule/<int:pk>/', WeekScheduleDetail.as_view()),
-    path('schedulesByUsername/<str:username>/', WeekSchedulesByUsername.as_view())
+    path('weekSchedulesByUsername/<str:username>/', WeekSchedulesByUsername.as_view())
 ]
