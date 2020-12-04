@@ -36,36 +36,14 @@ class Event(models.Model):
     def __str__(self):
         return f"{self.name} for team: {self.team}"
 
-
-class DaySchedule(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='dayscheduleuser', default=1)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='weekscheduleuser', default=1)
-    available = BooleanField(default=True)
-    day = models.DateField(default='2010-10-25')
-    def __str__(self):
-        return f'{self.user}\'s schedule for {self.team}. Day Availability: {self.available}.'
-
-class DayTimeFrame(models.Model):
-    dayschedule = models.ForeignKey(DaySchedule, on_delete=models.CASCADE, related_name='daytimeframe')
-    start = models.TimeField()
-    end = models.TimeField()
-    def __str__(self):
-        return f'{self.dayschedule} Available from {self.start} to {self.end}'
-
-class WeekSchedule(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userweekschedule')
-    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='weekscheduleforteam', default=1)
-    userTeamValuesDupeCheck = models.CharField(max_length=100, unique=True)
-    def __str__(self):
-        return f'{self.user}\'s schedule for {self.team}'
-
-class WeekTimeFrame(models.Model):
-    weekschedule = models.ForeignKey(WeekSchedule, on_delete=models.CASCADE, related_name='weektimeframe')
+class ScheduleTimeFrame(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='scheduletimeframeuser')
+    team = models.ManyToManyField(Team, related_name='scheduletimeframeteams')
     weekday = models.CharField(max_length=15, choices=[("sunday","SUNDAY"), ("monday","MONDAY"), ("tuesday","TUESDAY"), ("wednesday","WEDNESDAY"), ("thursday","THURSDAY"), ("friday","FRIDAY"), ("saturday","SATURDAY")], default=("sunday","SUNDAY"))
     start = models.TimeField()
     end = models.TimeField()
     def __str__(self):
-        return f'{self.weekschedule} on {self.weekday}. Available from {self.start} to {self.end}'
+        return f'{self.user}\'s typical schedule for {self.team} on {self.weekday}. Available from {self.start} to {self.end}.'
 
 class Announcement(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='teamevent')

@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, Team, WeekSchedule
-from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken, WeekScheduleSerializer
+from .models import Event, Invitation, User, Team, ScheduleTimeFrame
+from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserSerializerWithToken, ScheduleTimeFrameSerializer
 
 
 
@@ -242,7 +242,7 @@ class EventDetail(APIView):
 
 
 '''-------------------------------------------------------------------------'''
-class WeekScheduleList(APIView):
+class ScheduleTimeFrameList(APIView):
     """
     Create a new Schedule. Get all Schedules.
     """
@@ -250,52 +250,23 @@ class WeekScheduleList(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def post(self, request, format=None):
-        serializer = WeekScheduleSerializer(data=request.data)
+        serializer = ScheduleTimeFrameSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request, format=None):
-        allSchedules = WeekSchedule.objects.all()
-        serializer = WeekScheduleSerializer(allSchedules, many=True)
+        allScheduleTimeFrames = ScheduleTimeFrame.objects.all()
+        serializer = ScheduleTimeFrameSerializer(allScheduleTimeFrames, many=True)
         return Response(serializer.data)
 
-class WeekScheduleDetail(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, name):
-        try:
-            return WeekSchedule.objects.get(name=name)
-        except WeekSchedule.DoesNotExist:
-            return False
-
-    def get(self, request, name, format=None):
-        schedule = self.get_object(name)
-        if schedule:
-            serializer = WeekScheduleSerializer(schedule)
-            return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    def put(self, request, name, format=None):
-        inv = self.get_object(name)
-        serializer = WeekScheduleSerializer(inv, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, name, format=None):
-        inv = self.get_object(name)
-        inv.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-class WeekSchedulesByUsername(APIView):
+class ScheduleTimeFramesByUsername(APIView):
     permission_classes = (permissions.AllowAny,)
     def get_object(self, scheduleid):
         try:
-            return WeekSchedule.objects.get(id=scheduleid)
-        except WeekSchedule.DoesNotExist:
+            return ScheduleTimeFrame.objects.get(id=scheduleid)
+        except ScheduleTimeFrame.DoesNotExist:
             return False
 
     def get(self, request, username, format=None):
@@ -304,22 +275,19 @@ class WeekSchedulesByUsername(APIView):
             if user['username']==username:
                 userid=user['id']
         if userid:
-            weekScheduleQuerySet = WeekSchedule.objects.values('user', 'id')
-            idsOfUserSchedules=[]
-            for schedule in weekScheduleQuerySet:
+            scheduleTimeFrameQuerySet = ScheduleTimeFrame.objects.values('user', 'id')
+            idsOfUsersSchedules=[]
+            for schedule in scheduleTimeFrameQuerySet:
                 if schedule['user']==userid:
-                    idsOfUserSchedules.append(schedule['id'])
-            if idsOfUserSchedules:
+                    idsOfUsersSchedules.append(schedule['id'])
+            if idsOfUsersSchedules:
                 schedules=[]
-                for scheduleid in idsOfUserSchedules:
-                    schedules.append(WeekScheduleSerializer(self.get_object(scheduleid)).data)
+                for scheduleid in idsOfUsersSchedules:
+                    schedules.append(ScheduleTimeFrameSerializer(self.get_object(scheduleid)).data)
                 if schedules:
-                    print(schedules)
                     return Response(schedules, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
         
-
-
 
 
 
