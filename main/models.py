@@ -7,7 +7,6 @@ import datetime
 class Team(Group):
     picture = models.CharField(max_length=100, default='pic1')
 
-
 class User(AbstractUser):
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')

@@ -1,12 +1,11 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, Invitation, User, Team, WeekSchedule
+from .models import Event, Invitation, User, Team, WeekSchedule, WeekTimeFrame, DaySchedule, DayTimeFrame
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'is_active') 
-        # fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme')
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,7 +16,6 @@ class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Invitation
         fields = '__all__'
-        # fields = ('team', 'inviter', 'invitee_email', 'date_invited', 'code')
 
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,6 +23,21 @@ class EventSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class WeekScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeekSchedule
+        fields = '__all__'
+
+class DayScheduleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeekSchedule
+        fields = '__all__'
+
+class WeekTimeFrameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WeekSchedule
+        fields = '__all__'
+
+class DayTimeFrameSerializer(serializers.ModelSerializer):
     class Meta:
         model = WeekSchedule
         fields = '__all__'
