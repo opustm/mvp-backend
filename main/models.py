@@ -30,9 +30,9 @@ class AbstractGroup(models.Model):
     objects = GroupManager()
 
     class Meta:
-        abstract = True#way to making abstract class! :O
         verbose_name = _('group')
         verbose_name_plural = _('groups')
+        abstract = True#way to making abstract class! :O
 
     def __str__(self):
         return self.name
@@ -41,8 +41,20 @@ class AbstractGroup(models.Model):
         return (self.name,)
 
 
-class Team(AbstractGroup):
+class Team(Group):
     picture = models.CharField(max_length=100, default='pic1')
+
+
+class OpusTeam(AbstractGroup):
+    picture = models.CharField(max_length=100, default='pic1')
+    class Meta(AbstractGroup.Meta):
+        swappable = 'AUTH_OPUSTEAM_MODEL'
+
+class OpusClique(AbstractGroup):
+    team = models.ForeignKey(OpusTeam, on_delete=models.CASCADE, related_name='cliquesTeam')
+    picture = models.CharField(max_length=100, default='pic1')
+    class Meta(AbstractGroup.Meta):
+        swappable = 'AUTH_OPUSCLIQUE_MODEL'
 
 class User(AbstractUser):
     picture = models.CharField(max_length=100, default='pic1')

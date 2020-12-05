@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, Invitation, User, UserEvent, Team, ScheduleTimeFrame, Announcement
+from .models import Event, Invitation, User, UserEvent, OpusTeam, ScheduleTimeFrame, Announcement
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -9,7 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Team
+        model = OpusTeam
         fields = ('id', 'name', 'picture')
 
 class InvitationSerializer(serializers.ModelSerializer):

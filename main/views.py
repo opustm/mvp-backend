@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, UserEvent, Team, ScheduleTimeFrame, Announcement
+from .models import Event, Invitation, User, UserEvent, OpusTeam, ScheduleTimeFrame, Announcement
 from .serializers import TeamSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, UserEventSerializer, UserSerializerWithToken, ScheduleTimeFrameSerializer
 
 
@@ -47,8 +47,8 @@ class TeamDetail(APIView):
 
     def get_object(self, name):
         try:
-            return Team.objects.get(name=name)
-        except Team.DoesNotExist:
+            return OpusTeam.objects.get(name=name)
+        except OpusTeam.DoesNotExist:
             return False
 
     def get(self, request, name, format=None):
@@ -77,10 +77,10 @@ class TeamMembersByTeamname(APIView):
     def get_object(self, username):
         try:
             return User.objects.get(username=username)
-        except Team.DoesNotExist:
+        except OpusTeam.DoesNotExist:
             return False
     def get(self, request, name, format=None):
-        teamQuerySet = Team.objects.values('id', 'name')
+        teamQuerySet = OpusTeam.objects.values('id', 'name')
         teamid=None
         for team in teamQuerySet:
             if team['name']==name:
@@ -134,7 +134,7 @@ class EventsByTeamname(APIView):
             return False
 
     def get(self, request, name, format=None):
-        teamQuerySet = Team.objects.values('id', 'name')
+        teamQuerySet = OpusTeam.objects.values('id', 'name')
         teamid=None
         for team in teamQuerySet:
             if team['name']==name:
@@ -213,7 +213,7 @@ class AnnouncementsByTeamName(APIView):
             return False
 
     def get(self, request, name, format=None):
-        teamQuerySet = Team.objects.values('id', 'name')
+        teamQuerySet = OpusTeam.objects.values('id', 'name')
         teamid=None
         for team in teamQuerySet:
             if team['name']==name:
