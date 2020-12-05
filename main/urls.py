@@ -1,15 +1,18 @@
 from django.urls import path, include
-from .views import current_user, index, team, UserDetail, TeamDetail, EventsByTeamname, UserEventsByUsername, InvitationDetail, TeamMembersByTeamname, ScheduleTimeFramesByUsername, AnnouncementsByTeamName
+from .views import current_user, index, team, UserDetails, TeamDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, TeamMembers, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements
 
 urlpatterns = [
     path('', index),
     path('current_user/', current_user),
-    path('userByUsername/<str:username>/', UserDetail.as_view()),
-    path('teamByTeamname/<str:name>/', TeamDetail.as_view()),
-    path('teamMembers/<str:name>/', TeamMembersByTeamname.as_view()),
-    path('invitationByCode/<str:code>/', InvitationDetail.as_view()),
-    path('teamEventsByTeamname/<str:name>/', EventsByTeamname.as_view()),
-    path('userEventsByUsername/<str:username>/', UserEventsByUsername.as_view()),
-    path('usersScheduleTimeFramesByUsername/<str:username>/', ScheduleTimeFramesByUsername.as_view()),
-    path('teamAnnouncementsByUsername/<str:name>/', AnnouncementsByTeamName.as_view())
+    path('userDetails/<str:username>/', UserDetails.as_view()),
+    path('teamDetails/<str:name>/', TeamDetails.as_view()),
+    path('teamMembers/<str:name>/', TeamMembers.as_view()),
+    path('cliqueDetails/<str:name>/', CliqueDetails.as_view()),
+    path('cliqueMembers/<str:name>/', CliqueMembers.as_view()),    
+    path('invitationDetails/<str:code>/', InvitationDetails.as_view()),
+    path('cliqueEvents/<str:name>/', CliqueEvents.as_view()),
+    path('userSoloEvents/<str:username>/', UserSoloEvents.as_view()),
+    path('userSchedules/<str:username>/', UserSchedules.as_view()),
+    path('scheduleTimeFrames/<int:scheduleId>/', ScheduleTimeFrames.as_view()),
+    path('cliqueAnnouncements/<str:name>/', CliqueAnnouncements.as_view())
 ]

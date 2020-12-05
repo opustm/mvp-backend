@@ -1,16 +1,21 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, Invitation, User, UserEvent, Team, ScheduleTimeFrame, Announcement
+from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, Schedule, TimeFrame, Announcement
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'is_active') 
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'cliques', 'is_active') 
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Team
+        model = OpusTeam
         fields = ('id', 'name', 'picture')
+
+class CliqueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OpusClique
+        fields = '__all__'
 
 class InvitationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,14 +32,19 @@ class EventSerializer(serializers.ModelSerializer):
         model = Event
         fields = '__all__'
 
-class UserEventSerializer(serializers.ModelSerializer):
+class SoloEventSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserEvent
+        model = SoloEvent
         fields = '__all__'
 
-class ScheduleTimeFrameSerializer(serializers.ModelSerializer):
+class ScheduleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ScheduleTimeFrame
+        model = Schedule
+        fields = '__all__'
+
+class TimeFrameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TimeFrame
         fields = '__all__'
 
 class UserSerializerWithToken(serializers.ModelSerializer):

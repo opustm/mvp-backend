@@ -5,8 +5,13 @@ from rest_framework import permissions, status
 
 class TeamViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset= models.Team.objects.all()
+    queryset= models.OpusTeam.objects.all()
     serializer_class = serializers.TeamSerializer
+
+class CliqueViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.OpusClique.objects.all()
+    serializer_class = serializers.CliqueSerializer
     
 class UserViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
@@ -23,15 +28,20 @@ class EventViewset(viewsets.ModelViewSet):
     queryset= models.Event.objects.all()
     serializer_class = serializers.EventSerializer
 
-class UserEventViewset(viewsets.ModelViewSet):
+class SoloEventViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset= models.UserEvent.objects.all()
-    serializer_class = serializers.UserEventSerializer
+    queryset= models.SoloEvent.objects.all()
+    serializer_class = serializers.SoloEventSerializer
 
-class ScheduleTimeFrameViewset(viewsets.ModelViewSet):
+class ScheduleViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset= models.ScheduleTimeFrame.objects.all()
-    serializer_class = serializers.ScheduleTimeFrameSerializer
+    queryset= models.Schedule.objects.all()
+    serializer_class = serializers.ScheduleSerializer
+
+class TimeFrameViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.TimeFrame.objects.all()
+    serializer_class = serializers.TimeFrameSerializer
 
 class AnnouncementViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
