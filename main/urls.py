@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import current_user, index, team, UserDetails, TeamDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, TeamMembers, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements
+from .views import UserList, current_user, index, team, UserDetails, TeamDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, TeamMembers, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements
 
 urlpatterns = [
     path('', index),
