@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, UserEvent, Team, ScheduleTimeFrame
-from .serializers import TeamSerializer, UserSerializer, InvitationSerializer, EventSerializer, UserEventSerializer, UserSerializerWithToken, ScheduleTimeFrameSerializer
+from .models import Event, Invitation, User, UserEvent, Team, ScheduleTimeFrame, Announcement
+from .serializers import TeamSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, UserEventSerializer, UserSerializerWithToken, ScheduleTimeFrameSerializer
 
 
 
@@ -124,8 +124,15 @@ class TeamMembersByTeamId(APIView):
 
 class TeamMembersByTeamname(APIView):
     permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, username):
+        try:
+            return User.objects.get(username=username)
+        except Team.DoesNotExist:
+            return False
     def get(self, request, name, format=None):
         teamQuerySet = Team.objects.values('id', 'name')
+        teamid=None
         for team in teamQuerySet:
             if team['name']==name:
                 teamid=team['id']
@@ -134,7 +141,7 @@ class TeamMembersByTeamname(APIView):
             members=[]
             for user in userQuerySet:
                 if user["teams"]==teamid:
-                    members.append(user["username"])
+                    members.append(UserSerializer(self.get_object(user['username'])).data)
             return Response(members, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -240,6 +247,30 @@ class EventDetail(APIView):
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class EventsByTeamname(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get_object(self, eventid):
+        try:
+            return Event.objects.get(id=eventid)
+        except Event.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        teamQuerySet = Team.objects.values('id', 'name')
+        teamid=None
+        for team in teamQuerySet:
+            if team['name']==name:
+                teamid=team['id']
+        if teamid:
+            eventQuerySet=Event.objects.values('id', 'team')
+            events=[]
+            for event in eventQuerySet:
+                if event["team"]==teamid:
+                    events.append(EventSerializer(self.get_object(event['id'])).data)
+            return Response(events, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 '''------------------------------------------------------------------------------------------'''
 
 class UserEventList(APIView):
@@ -290,6 +321,30 @@ class UserEventDetail(APIView):
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class UserEventsByUsername(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get_object(self, eventid):
+        try:
+            return UserEvent.objects.get(id=eventid)
+        except UserEvent.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            eventQuerySet=UserEvent.objects.values('id', 'user')
+            events=[]
+            for event in eventQuerySet:
+                if event["user"]==userid:
+                    events.append(UserEventSerializer(self.get_object(event['id'])).data)
+            return Response(events, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 '''-------------------------------------------------------------------------'''
 class ScheduleTimeFrameList(APIView):
     """
@@ -320,6 +375,7 @@ class ScheduleTimeFramesByUsername(APIView):
 
     def get(self, request, username, format=None):
         userQuerySet = User.objects.values('id', 'username')
+        userid=None
         for user in userQuerySet:
             if user['username']==username:
                 userid=user['id']
@@ -336,9 +392,32 @@ class ScheduleTimeFramesByUsername(APIView):
                 if schedules:
                     return Response(schedules, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
-        
 
+'''-----------------------------------------------------------------------------------------------------------'''   
 
+class AnnouncementsByTeamName(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get_object(self, announcementid):
+        try:
+            return Announcement.objects.get(id=announcementid)
+        except Announcement.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        teamQuerySet = Team.objects.values('id', 'name')
+        teamid=None
+        for team in teamQuerySet:
+            if team['name']==name:
+                teamid=team['id']
+        if teamid:
+            announcementQuerySet=Announcement.objects.values('id', 'team')
+            announcements=[]
+            for announcement in announcementQuerySet:
+                if announcement["team"]==teamid:
+                    announcements.append(AnnouncementSerializer(self.get_object(announcement['id'])).data)
+            return Response(announcements, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 '''-------------------------------------------------------------------------------------------------------------'''

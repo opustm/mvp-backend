@@ -33,4 +33,7 @@ class ScheduleTimeFrameViewset(viewsets.ModelViewSet):
     queryset= models.ScheduleTimeFrame.objects.all()
     serializer_class = serializers.ScheduleTimeFrameSerializer
 
-
+class AnnouncementViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.Announcement.objects.all()
+    serializer_class = serializers.AnnouncementSerializer

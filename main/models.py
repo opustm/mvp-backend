@@ -36,16 +36,14 @@ class Event(models.Model):
         return f"{self.name} for team: {self.team}"
 
 class UserEvent(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent')#ONE TEAM HAS MANY EVENTS (ONE2ONE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent')#ONE USER HAS MANY EVENTS (ONE2ONE)
     name = models.CharField(max_length=100, default='New Event')
     start = models.DateTimeField()
     end = models.DateTimeField()
-    invited = models.ManyToManyField(User, related_name='userEventInvited')
-    not_going = models.ManyToManyField(User, related_name='usersNotGoing')
     details = models.CharField(max_length=100, default='This event is blah blah blah..')
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
-        return f"{self.name} for user: {self.user}"
+        return f"{self.name} for user {self.user} beginning {self.start}"
 
 class ScheduleTimeFrame(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='scheduletimeframeuser')
@@ -59,7 +57,7 @@ class ScheduleTimeFrame(models.Model):
 class Announcement(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name='teamevent')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='event_announcement')
-    announcement = models.CharField(max_length=100, default='This is a reminder to do your hw')
+    announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
     def __str__(self):
         return f'{self.team}: {self.announcement} with event {self.event}'
 

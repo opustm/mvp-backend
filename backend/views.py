@@ -15,7 +15,7 @@ def documentation(request):
             <h3>User</h3>
             <ul>
                 <li><a href="/users/">/users/</a></li>
-                <li><a href="/users/1/">/user/&lt;userId&gt;/</a></li>
+                <li><a href="/users/4/">/user/&lt;userId&gt;/</a></li>
                 <li><a href="/user/asdf/">/user/&lt;userName&gt;/</a></li>
             </ul>
             <h3>Team</h3>
@@ -35,13 +35,22 @@ def documentation(request):
             <ul>
                 <li><a href="/events/">/events/</a></li>
                 <li><a href="/events/1/">/events/&lt;eventId&gt;/</a></li>
+                <li><a href="/eventsByTeamName/FlatEarthers/">/eventsByTeamName/&lt;teamName&gt;/</a></li>
                 <li><a href="/userEvents/">/userEvents/</a></li>
-                <li><a href="/userEvents/1/">/userEvents/&lt;eventId&gt;/</a></li>
+                <li><a href="/userEvents/1/">/events/&lt;userEventId&gt;/</a></li>
+                <li><a href="/userEventsByUsername/barackO/">/userEventsByUsername/&lt;username&gt;/</a></li>
             </ul>
             <h3>Schedule</h3>
             <ul>
-                <li><a href="/scheduleTimeFrames/">/scheduletimeframes/</a></li>
-                <li><a href="/scheduleTimeFramesByUsername/admin/">/scheduleTimeFramesByUsername/&lt;username&gt;/</a></li>
+                <li><a href="/scheduleTimeFrames/">/scheduleTimeFrames/</a></li>
+                <li><a href="/scheduleTimeFrames/1/">/scheduleTimeFrames/&lt;scheduleTimeFrameId&gt;/</a></li>
+                <li><a href="/scheduleTimeFramesByUsername/user0/">/scheduleTimeFramesByUsername/&lt;username&gt;/</a></li>
+            </ul>
+            <h3>Announcement</h3>
+            <ul>
+                <li><a href="/announcements/">/announcements/</a></li>
+                <li><a href="/announcements/1/">/scheduleTimeFrames/&lt;announcementId&gt;/</a></li>
+                <li><a href="/announcementsByTeamName/FlatEarthers/">/announcementsByTeamName/&lt;TeamName&gt;/</a></li>
             </ul>
         </body>
     </html>
