@@ -1,4 +1,4 @@
-from main.viewsets import TeamViewset, CliqueViewset, UserViewset, InvitationViewset, EventViewset, SoloEventViewset, ScheduleTimeFrameViewset, AnnouncementViewset
+from main.viewsets import TeamViewset, CliqueViewset, UserViewset, InvitationViewset, EventViewset, SoloEventViewset, ScheduleViewset, TimeFrameViewset, AnnouncementViewset
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -8,5 +8,6 @@ router.register('users', UserViewset)
 router.register('invitations', InvitationViewset)
 router.register('events', EventViewset)
 router.register('soloEvents', SoloEventViewset)
-router.register('scheduleTimeFrames', ScheduleTimeFrameViewset)
+router.register('schedules', ScheduleViewset)
+router.register('timeFrames', TimeFrameViewset)
 router.register('announcements', AnnouncementViewset)

@@ -33,10 +33,15 @@ class SoloEventViewset(viewsets.ModelViewSet):
     queryset= models.SoloEvent.objects.all()
     serializer_class = serializers.SoloEventSerializer
 
-class ScheduleTimeFrameViewset(viewsets.ModelViewSet):
+class ScheduleViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset= models.ScheduleTimeFrame.objects.all()
-    serializer_class = serializers.ScheduleTimeFrameSerializer
+    queryset= models.Schedule.objects.all()
+    serializer_class = serializers.ScheduleSerializer
+
+class TimeFrameViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.TimeFrame.objects.all()
+    serializer_class = serializers.TimeFrameSerializer
 
 class AnnouncementViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)

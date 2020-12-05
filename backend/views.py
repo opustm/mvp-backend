@@ -16,7 +16,7 @@ def documentation(request):
             <ul>
                 <li><a href="/users/">/users/</a></li>
                 <li><a href="/users/4/">/user/&lt;userId&gt;/</a></li>
-                <li><a href="/usersDetails/asdf/">/userDetails/&lt;userName&gt;/</a></li>
+                <li><a href="/userDetails/barackO/">/userDetails/&lt;userName&gt;/</a></li>
             </ul>
             <h3>Team</h3>
             <ul>
@@ -27,8 +27,8 @@ def documentation(request):
             </ul>
             <h3>Clique</h3>
             <ul>
-                <li><a href="/cliques/">/teams/</a></li>
-                <li><a href="/cliques/1/">/team/&lt;teamId&gt;/</a></li>
+                <li><a href="/cliques/">/cliques/</a></li>
+                <li><a href="/cliques/1/">/cliques/&lt;cliqueId&gt;/</a></li>
                 <li><a href="/cliqueDetails/Poodle People/">/cliqueDetails/&lt;cliqueName&gt;/</a></li>
                 <li><a href="/cliqueMembers/Poodle People/">/cliqueMembers/&lt;cliqueName&gt;/</a></li>
             </ul>
@@ -36,28 +36,31 @@ def documentation(request):
             <ul>
                 <li><a href="/invitations/">/invitations/</a></li>
                 <li><a href="/invitations/1/">/invitation/&lt;invitationId&gt;/</a></li>
-                <li><a href="/invitationDetails/123abc/">/invitationDetails/&lt;code&gt;/</a></li>
+                <li><a href="/invitationDetails/abc123/">/invitationDetails/&lt;code&gt;/</a></li>
             </ul>
             <h3>Event</h3>
             <ul>
                 <li><a href="/events/">/events/</a></li>
                 <li><a href="/events/1/">/events/&lt;teamEventId&gt;/</a></li>
-                <li><a href="/teamEvents/Dog Lovers/">/teamEvents/&lt;teamName&gt;/</a></li>
+                <li><a href="/cliqueEvents/Dog Lovers/">/cliqueEvents/&lt;cliqueName&gt;/</a></li>
                 <li><a href="/soloEvents/">/soloEvents/</a></li>
                 <li><a href="/soloEvents/1/">/soloEvents/&lt;userEventId&gt;/</a></li>
                 <li><a href="/userSoloEvents/barackO/">/userSoloEvents/&lt;username&gt;/</a></li>
             </ul>
             <h3>Schedule</h3>
             <ul>
-                <li><a href="/scheduleTimeFrames/">/scheduleTimeFrames/</a></li>
-                <li><a href="/scheduleTimeFrames/1/">/scheduleTimeFrames/&lt;scheduleTimeFrameId&gt;/</a></li>
-                <li><a href="/userScheduleTimeFrames/user0/">/userScheduleTimeFrames/&lt;username&gt;/</a></li>
+                <li><a href="/schedules/">/schedules/</a></li>
+                <li><a href="/schedules/1/">/schedules/&lt;scheduleId&gt;/</a></li>
+                <li><a href="/userSchedules/barackO/">/userSchedules/&lt;username&gt;/</a></li>
+                <li><a href="/timeFrames/">/timeframes/</a></li>
+                <li><a href="/timeFrames/1/">/timeframes/&lt;timeFrameId&gt;/</a></li>
+                <li><a href="/scheduleTimeFrames/1/">/scheduleTimeFrames/&lt;scheduleId&gt;/</a></li>
             </ul>
             <h3>Announcement</h3>
             <ul>
                 <li><a href="/announcements/">/announcements/</a></li>
                 <li><a href="/announcements/1/">/announcements/&lt;announcementId&gt;/</a></li>
-                <li><a href="/teamAnnouncements/Dog Lovers/">/teamAnnouncements/&lt;TeamName&gt;/</a></li>
+                <li><a href="/cliqueAnnouncements/Dog Lovers/">/cliqueAnnouncements/&lt;cliqueName&gt;/</a></li>
             </ul>
         </body>
     </html>

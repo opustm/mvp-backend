@@ -9,9 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, ScheduleTimeFrame, Announcement
-from .serializers import TeamSerializer, CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleTimeFrameSerializer
-
+from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, Schedule, TimeFrame, Announcement
+from .serializers import TeamSerializer, CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer
 
 class UserDetails(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -148,6 +147,31 @@ class CliqueMembers(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+class CliqueEvents(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, eventid):
+        try:
+            return Event.objects.get(id=eventid)
+        except Event.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueid=None
+        for clique in cliqueQuerySet:
+            if clique['name']==name:
+                cliqueid=clique['id']
+        if cliqueid:
+            eventQuerySet=Event.objects.values('id', 'clique')
+            events=[]
+            for event in eventQuerySet:
+                if event["clique"]==cliqueid:
+                    events.append(EventSerializer(self.get_object(event['id'])).data)
+            return Response(events, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 class InvitationDetails(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -177,31 +201,6 @@ class InvitationDetails(APIView):
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class TeamEvents(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, eventid):
-        try:
-            return Event.objects.get(id=eventid)
-        except Event.DoesNotExist:
-            return False
-
-    def get(self, request, name, format=None):
-        teamQuerySet = OpusTeam.objects.values('id', 'name')
-        teamid=None
-        for team in teamQuerySet:
-            if team['name']==name:
-                teamid=team['id']
-        if teamid:
-            eventQuerySet=Event.objects.values('id', 'team')
-            events=[]
-            for event in eventQuerySet:
-                if event["team"]==teamid:
-                    events.append(EventSerializer(self.get_object(event['id'])).data)
-            return Response(events, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
 class UserSoloEvents(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -227,13 +226,13 @@ class UserSoloEvents(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-class UserScheduleTimeFrames(APIView):
+class UserSchedules(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get_object(self, scheduleid):
         try:
-            return ScheduleTimeFrame.objects.get(id=scheduleid)
-        except ScheduleTimeFrame.DoesNotExist:
+            return Schedule.objects.get(id=scheduleid)
+        except Schedule.DoesNotExist:
             return False
 
     def get(self, request, username, format=None):
@@ -243,20 +242,43 @@ class UserScheduleTimeFrames(APIView):
             if user['username']==username:
                 userid=user['id']
         if userid:
-            scheduleTimeFrameQuerySet = ScheduleTimeFrame.objects.values('user', 'id')
+            scheduleQuerySet = Schedule.objects.values('user', 'id')
             idsOfUsersSchedules=[]
-            for schedule in scheduleTimeFrameQuerySet:
+            for schedule in scheduleQuerySet:
                 if schedule['user']==userid:
                     idsOfUsersSchedules.append(schedule['id'])
             if idsOfUsersSchedules:
                 schedules=[]
                 for scheduleid in idsOfUsersSchedules:
-                    schedules.append(ScheduleTimeFrameSerializer(self.get_object(scheduleid)).data)
+                    schedules.append(ScheduleSerializer(self.get_object(scheduleid)).data)
                 if schedules:
                     return Response(schedules, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-class TeamAnnouncements(APIView):
+class ScheduleTimeFrames(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, timeframeid):
+        try:
+            return TimeFrame.objects.get(id=timeframeid)
+        except TimeFrame.DoesNotExist:
+            return False
+
+    def get(self, request, scheduleId, format=None):
+        timeFrameQuerySet = TimeFrame.objects.values('id', 'schedule')
+        timeframeids=[]
+        for timeFrame in timeFrameQuerySet:
+            if timeFrame['schedule']==scheduleId:
+                timeframeids.append(timeFrame['id'])
+        if timeframeids:
+            timeframes=[]
+            for timeframeid in timeframeids:
+                timeframes.append(TimeFrameSerializer(self.get_object(timeframeid)).data)
+            if timeframes:
+                return Response(timeframes, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+class CliqueAnnouncements(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get_object(self, announcementid):
@@ -266,16 +288,16 @@ class TeamAnnouncements(APIView):
             return False
 
     def get(self, request, name, format=None):
-        teamQuerySet = OpusTeam.objects.values('id', 'name')
-        teamid=None
-        for team in teamQuerySet:
-            if team['name']==name:
-                teamid=team['id']
-        if teamid:
-            announcementQuerySet=Announcement.objects.values('id', 'team')
+        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueid=None
+        for clique in cliqueQuerySet:
+            if clique['name']==name:
+                cliqueid=clique['id']
+        if cliqueid:
+            announcementQuerySet=Announcement.objects.values('id', 'clique')
             announcements=[]
             for announcement in announcementQuerySet:
-                if announcement["team"]==teamid:
+                if announcement["clique"]==cliqueid:
                     announcements.append(AnnouncementSerializer(self.get_object(announcement['id'])).data)
             return Response(announcements, status=status.HTTP_200_OK)
         else:

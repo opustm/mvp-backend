@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import current_user, index, team, UserDetails, TeamDetails, CliqueDetails, TeamEvents, UserSoloEvents, InvitationDetails, TeamMembers, CliqueMembers, UserScheduleTimeFrames, TeamAnnouncements
+from .views import current_user, index, team, UserDetails, TeamDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, TeamMembers, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements
 
 urlpatterns = [
     path('', index),
@@ -10,8 +10,9 @@ urlpatterns = [
     path('cliqueDetails/<str:name>/', CliqueDetails.as_view()),
     path('cliqueMembers/<str:name>/', CliqueMembers.as_view()),    
     path('invitationDetails/<str:code>/', InvitationDetails.as_view()),
-    path('teamEvents/<str:name>/', TeamEvents.as_view()),
+    path('cliqueEvents/<str:name>/', CliqueEvents.as_view()),
     path('userSoloEvents/<str:username>/', UserSoloEvents.as_view()),
-    path('userScheduleTimeFrames/<str:username>/', UserScheduleTimeFrames.as_view()),
-    path('teamAnnouncements/<str:name>/', TeamAnnouncements.as_view())
+    path('userSchedules/<str:username>/', UserSchedules.as_view()),
+    path('scheduleTimeFrames/<int:scheduleId>/', ScheduleTimeFrames.as_view()),
+    path('cliqueAnnouncements/<str:name>/', CliqueAnnouncements.as_view())
 ]
