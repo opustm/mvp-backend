@@ -1,27 +1,43 @@
 ## Home to the opus-tm Django REST API: [API](https://opustm-api.herokuapp.com/)
 ## This API serves our React Web App: [OpusTm](https://opustm.herokuapp.com/)
 
-# API ROUTES:
+# Endpoints:
 ## User
 - /users/
-- /user/\<userId\>/
-- /user/\<userName\>/
+- /user/&lt;userId&gt;/
+- /userDetails/&lt;userName&gt;/
 ## Team
 - /teams/
-- /team/&lt;teamId/
-- /team/&lt;teamName&gt;/
+- /team/&lt;teamId&gt;/
+- /teamDetails/&lt;teamName&gt;/
 - /teamMembers/&lt;teamName&gt;/
+## Clique
+- /cliques/
+- /cliques/&lt;cliqueId&gt;/
+- /cliqueDetails/&lt;cliqueName&gt;/
+- /cliqueMembers/&lt;cliqueName&gt;/
 ## Invitation
 - /invitations/
 - /invitation/&lt;invitationId&gt;/
-- /invitation/&lt;invitationCode&gt;/
+- /invitationDetails/&lt;code&gt;/
 ## Event
 - /events/
-- /events/&lt;eventId&gt;/
+- /events/&lt;teamEventId&gt;/
+- /cliqueEvents/&lt;cliqueName&gt;/
+- /soloEvents/
+- /soloEvents/&lt;userEventId&gt;/
+- /userSoloEvents/&lt;username&gt;/
 ## Schedule
 - /schedules/
 - /schedules/&lt;scheduleId&gt;/
-- /weekSchedulesByUsername/&lt;username&gt;/
+- /userSchedules/&lt;username&gt;/
+- /timeframes/
+- /timeframes/&lt;timeFrameId&gt;/
+- /scheduleTimeFrames/&lt;scheduleId&gt;/
+## Announcement
+- /announcements/
+- /announcements/&lt;announcementId&gt;/
+- /cliqueAnnouncements/&lt;cliqueName&gt;/
 
 ## DEPLOYMENT: 
 For now we have stuck to Heroku for the sake of familiarity. Future plans possibly include deplyment on AWS. To ensure that we always have a working build, we also deploy a staging build to use in development:
