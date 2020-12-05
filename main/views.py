@@ -13,26 +13,6 @@ from .models import Event, Invitation, User, UserEvent, Team, ScheduleTimeFrame,
 from .serializers import TeamSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, UserEventSerializer, UserSerializerWithToken, ScheduleTimeFrameSerializer
 
 
-
-class UserList(APIView):
-    """
-    Create a new user. Get all Users.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = UserSerializerWithToken(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allUsers = User.objects.all()
-        serializer = UserSerializer(allUsers, many=True)
-        return Response(serializer.data)
-
 class UserDetail(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -61,27 +41,6 @@ class UserDetail(APIView):
         inv = self.get_object(username)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-'''-------------------------------------------------------------------------'''
-
-class TeamList(APIView):
-    """
-    Create a new team. Get all teams.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = TeamSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allTeams = Team.objects.all()
-        serializer = TeamSerializer(allTeams, many=True)
-        return Response(serializer.data)
 
 class TeamDetail(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -112,16 +71,6 @@ class TeamDetail(APIView):
         team.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-#WE ALREADY HAVE THIS ONE WITH DEFAULT VIEWSET:
-class TeamMembersByTeamId(APIView):
-    def get(self, request, teamid, format=None):
-        userQuerySet=User.objects.values('username', 'teams')
-        members=[]
-        for user in userQuerySet:
-            if user["teams"]==teamid:
-                members.append(user["username"])
-        return Response(members, status=status.HTTP_200_OK)
-
 class TeamMembersByTeamname(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -145,28 +94,6 @@ class TeamMembersByTeamname(APIView):
             return Response(members, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-'''--------------------------------------------------------------------------------'''
-
-class InvitationList(APIView):
-    """
-    Create new invitation. Get all invitations.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def get(self, request, format=None):
-        allInvitations = Invitation.objects.all()
-        serializer = InvitationSerializer(allInvitations, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = InvitationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class InvitationDetail(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -197,58 +124,9 @@ class InvitationDetail(APIView):
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-'''------------------------------------------------------------------------------------------'''
-
-class EventList(APIView):
-    """
-    Create a new Event. Get all Events.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = EventSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allEvents = Event.objects.all()
-        serializer = EventSerializer(allEvents, many=True)
-        return Response(serializer.data)
-
-class EventDetail(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, pk):
-        try:
-            return Event.objects.get(pk=pk)
-        except Event.DoesNotExist:
-            return False
-
-    def get(self, request, pk, format=None):
-        event = self.get_object(pk)
-        if event:
-            serializer = EventSerializer(event)
-            return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    def put(self, request, pk, format=None):
-        event = self.get_object(pk)
-        serializer = EventSerializer(event, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        event = self.get_object(pk)
-        event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 class EventsByTeamname(APIView):
     permission_classes = (permissions.AllowAny,)
+
     def get_object(self, eventid):
         try:
             return Event.objects.get(id=eventid)
@@ -271,58 +149,9 @@ class EventsByTeamname(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-'''------------------------------------------------------------------------------------------'''
-
-class UserEventList(APIView):
-    """
-    Create a new UserEvent. Get all UserEvents.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = UserEventSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allUserEvents = UserEvent.objects.all()
-        serializer = UserEventSerializer(allUserEvents, many=True)
-        return Response(serializer.data)
-
-class UserEventDetail(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, pk):
-        try:
-            return UserEvent.objects.get(pk=pk)
-        except UserEvent.DoesNotExist:
-            return False
-
-    def get(self, request, pk, format=None):
-        event = self.get_object(pk)
-        if event:
-            serializer = UserEventSerializer(event)
-            return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    def put(self, request, pk, format=None):
-        event = self.get_object(pk)
-        serializer = UserEventSerializer(event, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, pk, format=None):
-        event = self.get_object(pk)
-        event.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 class UserEventsByUsername(APIView):
     permission_classes = (permissions.AllowAny,)
+
     def get_object(self, eventid):
         try:
             return UserEvent.objects.get(id=eventid)
@@ -345,28 +174,9 @@ class UserEventsByUsername(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-'''-------------------------------------------------------------------------'''
-class ScheduleTimeFrameList(APIView):
-    """
-    Create a new Schedule. Get all Schedules.
-    """
-
-    permission_classes = (permissions.AllowAny,)
-
-    def post(self, request, format=None):
-        serializer = ScheduleTimeFrameSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, format=None):
-        allScheduleTimeFrames = ScheduleTimeFrame.objects.all()
-        serializer = ScheduleTimeFrameSerializer(allScheduleTimeFrames, many=True)
-        return Response(serializer.data)
-
 class ScheduleTimeFramesByUsername(APIView):
     permission_classes = (permissions.AllowAny,)
+
     def get_object(self, scheduleid):
         try:
             return ScheduleTimeFrame.objects.get(id=scheduleid)
@@ -393,10 +203,9 @@ class ScheduleTimeFramesByUsername(APIView):
                     return Response(schedules, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-'''-----------------------------------------------------------------------------------------------------------'''   
-
 class AnnouncementsByTeamName(APIView):
     permission_classes = (permissions.AllowAny,)
+
     def get_object(self, announcementid):
         try:
             return Announcement.objects.get(id=announcementid)
@@ -418,12 +227,6 @@ class AnnouncementsByTeamName(APIView):
             return Response(announcements, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-'''-------------------------------------------------------------------------------------------------------------'''
-
-
-
 
 
 def index(request):

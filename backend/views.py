@@ -16,26 +16,26 @@ def documentation(request):
             <ul>
                 <li><a href="/users/">/users/</a></li>
                 <li><a href="/users/4/">/user/&lt;userId&gt;/</a></li>
-                <li><a href="/user/asdf/">/user/&lt;userName&gt;/</a></li>
+                <li><a href="/userByUsername/asdf/">/userByUsername/&lt;userName&gt;/</a></li>
             </ul>
             <h3>Team</h3>
             <ul>
                 <li><a href="/teams/">/teams/</a></li>
                 <li><a href="/teams/1/">/team/&lt;teamId&gt;/</a></li>
-                <li><a href="/team/FlatEarthers/">/team/&lt;teamName&gt;/</a></li>
+                <li><a href="/teamByTeamname/FlatEarthers/">/teamByTeamname/&lt;teamName&gt;/</a></li>
                 <li><a href="/teamMembers/FlatEarthers/">/teamMembers/&lt;teamName&gt;/</a></li>
             </ul>
             <h3>Invitation</h3>
             <ul>
                 <li><a href="/invitations/">/invitations/</a></li>
                 <li><a href="/invitations/1/">/invitation/&lt;invitationId&gt;/</a></li>
-                <li><a href="/invitation/abc123/">/invitation/&lt;invitationCode&gt;/</a></li>
+                <li><a href="/invitationByCode/abc123/">/invitationByCode/&lt;invitationCode&gt;/</a></li>
             </ul>
             <h3>Event</h3>
             <ul>
                 <li><a href="/events/">/events/</a></li>
                 <li><a href="/events/1/">/events/&lt;eventId&gt;/</a></li>
-                <li><a href="/eventsByTeamName/FlatEarthers/">/eventsByTeamName/&lt;teamName&gt;/</a></li>
+                <li><a href="/teamEventsByTeamname/FlatEarthers/">/teamEventsByTeamname/&lt;teamName&gt;/</a></li>
                 <li><a href="/userEvents/">/userEvents/</a></li>
                 <li><a href="/userEvents/1/">/events/&lt;userEventId&gt;/</a></li>
                 <li><a href="/userEventsByUsername/barackO/">/userEventsByUsername/&lt;username&gt;/</a></li>
@@ -44,13 +44,13 @@ def documentation(request):
             <ul>
                 <li><a href="/scheduleTimeFrames/">/scheduleTimeFrames/</a></li>
                 <li><a href="/scheduleTimeFrames/1/">/scheduleTimeFrames/&lt;scheduleTimeFrameId&gt;/</a></li>
-                <li><a href="/scheduleTimeFramesByUsername/user0/">/scheduleTimeFramesByUsername/&lt;username&gt;/</a></li>
+                <li><a href="/usersScheduleTimeFramesByUsername/user0/">/usersScheduleTimeFramesByUsername/&lt;username&gt;/</a></li>
             </ul>
             <h3>Announcement</h3>
             <ul>
                 <li><a href="/announcements/">/announcements/</a></li>
-                <li><a href="/announcements/1/">/scheduleTimeFrames/&lt;announcementId&gt;/</a></li>
-                <li><a href="/announcementsByTeamName/FlatEarthers/">/announcementsByTeamName/&lt;TeamName&gt;/</a></li>
+                <li><a href="/announcements/1/">/announcements/&lt;announcementId&gt;/</a></li>
+                <li><a href="/teamAnnouncementsByUsername/FlatEarthers/">/teamAnnouncementsByUsername/&lt;TeamName&gt;/</a></li>
             </ul>
         </body>
     </html>
