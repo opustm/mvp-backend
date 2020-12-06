@@ -5,7 +5,8 @@ from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, Sc
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'cliques', 'is_active') 
+        fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme')
+        # fields = ('id', 'password', 'username')#, 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'cliques', 'is_active') 
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
