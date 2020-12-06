@@ -40,6 +40,10 @@
 - /announcements/
 - /announcements/&lt;announcementId&gt;/
 - /cliqueAnnouncements/&lt;cliqueName&gt;/
+## Token
+- /tokenAuth/
+## Django Admin
+- /admin/
 
 ## DEPLOYMENT: 
 For now we have stuck to Heroku for the sake of familiarity. Future plans possibly include deplyment on AWS. To ensure that we always have a working build, we also deploy a staging build to use in development:
