@@ -1,11 +1,10 @@
 ## Home to the opus-tm Django REST API: [API](https://opustm-api.herokuapp.com/)
 ## This API serves our React Web App: [OpusTm](https://opustm.herokuapp.com/)
-
 # Endpoints:
 ## User
 - /currentUser/
-- /addUsers/
-- /users/
+- /addUsers/                      POST
+- /users/                         GET, PUT, DELETE
 - /users/&lt;userId&gt;/
 - /userDetails/&lt;userName&gt;/
 ## Team
