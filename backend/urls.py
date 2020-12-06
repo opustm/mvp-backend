@@ -3,7 +3,6 @@ from django.urls import path, include
 from .views import documentation
 from .router import router
 from rest_framework_jwt.views import obtain_jwt_token
-from rest_framework.authtoken import obtain_auth_token
 
 
 
