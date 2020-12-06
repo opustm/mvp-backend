@@ -9,7 +9,7 @@ def documentation(request):
         </head>
         <body>
             <p><a href="/admin/">/admin/</a> Django admin. Manage the database with a user friendly gui.</p>
-            <a href="/token-auth/">/token-auth/</a> API View that receives a POST with a user's username and password. Returns a JSON Web Token that can be used for authenticated requests.
+            <a href="/tokenAuth/">/tokenAuth/</a> API View that receives a POST with a user's username and password. Returns a JSON Web Token that can be used for authenticated requests.
 
             <h1>Views</h1>
             <h3>User</h3>
