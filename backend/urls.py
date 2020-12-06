@@ -3,7 +3,7 @@ from django.urls import path, include
 # from rest_framework_jwt.views import obtain_jwt_token
 from .views import documentation
 from .router import router
-from rest_framework_jwt.compat import get_username_field, PasswordField
+# from rest_framework_jwt.compat import get_username_field, PasswordField
 
 
 from rest_framework import permissions
