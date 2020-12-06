@@ -3,6 +3,7 @@
 
 # Endpoints:
 ## User
+- /currentUser/
 - /addUsers/
 - /users/
 - /users/&lt;userId&gt;/
