@@ -305,15 +305,18 @@ class CliqueAnnouncements(APIView):
 
 
 def index(request):
+    permission_classes = (permissions.AllowAny,)
     return HttpResponse("Welcome to the OPUS-TM API")
 
 @api_view(['GET'])
 def team(request):
+    permission_classes = (permissions.AllowAny,)
     serializer=TeamSerializer(request.team)
     return Response(serializer.data)
 
 @api_view(['GET'])
 def current_user(request):
+    permission_classes = (permissions.AllowAny,)
     """
     Determine the current user by their token, and return their data
     """
