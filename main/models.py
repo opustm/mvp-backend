@@ -76,7 +76,7 @@ class Event(models.Model):
     details = models.CharField(max_length=100, default='This event is blah blah blah..')
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
-        return f"{self.name} for {self.clique}"
+        return f"{self.name} for {self.clique}."
 
 class SoloEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent')#ONE USER HAS MANY EVENTS (ONE2ONE)
@@ -86,13 +86,13 @@ class SoloEvent(models.Model):
     details = models.CharField(max_length=100, default='This event is blah blah blah..')
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
-        return f"{self.name} for user {self.user} beginning {self.start}"
+        return f"{self.name} for user {self.user} beginning {self.start}."
 
 class Schedule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userSchedule')
     cliques = models.ManyToManyField(Clique, related_name='cliquesSchedule')
     def __str__(self):
-        return f'{self.user} schedule for {self.cliques}'
+        return f'{self.user} schedule for {self.cliques}.'
 
 class TimeFrame(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='scheduleTimeFrame')
@@ -100,11 +100,11 @@ class TimeFrame(models.Model):
     start = models.TimeField()
     end = models.TimeField()
     def __str__(self):
-        return f'{self.user}\'s typical schedule on {self.weekday}. Available from {self.start} to {self.end}. Used for {self.teams}'
+        return f'TimeFrame for {self.schedule} Available from {self.start} to {self.end} on {self.weekday}.'
 
 class Announcement(models.Model):
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueAnnouncement')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement')
     announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
     def __str__(self):
-        return f'{self.clique}: {self.announcement} with event {self.event}'
+        return f'{self.clique}: {self.announcement} with event {self.event}.'

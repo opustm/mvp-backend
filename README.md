@@ -3,15 +3,10 @@
 # Endpoints:
 ## User
 - /currentUser/
-- /addUsers/                      POST
-- /users/                         GET, PUT, DELETE
+- /addUsers/                  
+- /users/                         
 - /users/&lt;userId&gt;/
 - /userDetails/&lt;userName&gt;/
-## Team
-- /teams/
-- /teams/&lt;teamId&gt;/
-- /teamDetails/&lt;teamName&gt;/
-- /teamMembers/&lt;teamName&gt;/
 ## Clique
 - /cliques/
 - /cliques/&lt;cliqueId&gt;/
