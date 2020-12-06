@@ -40,14 +40,6 @@ class AbstractGroup(models.Model):
     def natural_key(self):
         return (self.name,)
 
-class OpusTeam(AbstractGroup):
-    picture = models.CharField(max_length=100, default='pic1')
-    class Meta:
-        verbose_name = _('team')
-        verbose_name_plural = _('teams')
-    def __str__(self):
-        return f'{self.name}'
-
 class Clique(AbstractGroup):
     cliqueType = models.CharField(max_length=100, choices=[("sub", "SUB"),("team","Team"), ("class","CLASS"), ("ensemble", "ENSEMBLE"), ("club", "CLUB"), ("social", "SOCIAL")], default=("sub", "SUB"))
     parents = models.ManyToManyField("self", blank=True)
@@ -60,7 +52,6 @@ class Clique(AbstractGroup):
         return f'{self.name}'
 
 class User(AbstractUser):
-    contacts = models.ManyToManyField("self", blank=True)
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
     phone = models.CharField(max_length=100, default='123-456-7890')

@@ -3,7 +3,6 @@ from main.models import User, OpusTeam, Clique, Event, SoloEvent, Invitation, Ti
 
 
 admin.site.register(User)
-admin.site.register(OpusTeam)
 admin.site.register(Clique)
 admin.site.register(Event)
 admin.site.register(SoloEvent)

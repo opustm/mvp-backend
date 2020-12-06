@@ -20,13 +20,6 @@ def documentation(request):
                 <li><a href="/users/4/">/users/&lt;userId&gt;/</a></li>
                 <li><a href="/userDetails/barackO/">/userDetails/&lt;userName&gt;/</a></li>
             </ul>
-            <h3>Team</h3>
-            <ul>
-                <li><a href="/teams/">/teams/</a></li>
-                <li><a href="/teams/1/">/team/&lt;teamId&gt;/</a></li>
-                <li><a href="/teamDetails/Dog Lovers/">/teamDetails/&lt;teamName&gt;/</a></li>
-                <li><a href="/teamMembers/Dog Lovers/">/teamMembers/&lt;teamName&gt;/</a></li>
-            </ul>
             <h3>Clique</h3>
             <ul>
                 <li><a href="/cliques/">/cliques/</a></li>
