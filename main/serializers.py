@@ -5,13 +5,12 @@ from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, Sc
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme')
-        # fields = ('id', 'password', 'username')#, 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'cliques', 'is_active') 
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'cliques') 
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = OpusTeam
-        fields = ('id', 'name', 'picture')
+        fields = '__all__'
 
 class CliqueSerializer(serializers.ModelSerializer):
     class Meta:
