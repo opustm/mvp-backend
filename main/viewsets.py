@@ -10,7 +10,7 @@ class TeamViewset(viewsets.ModelViewSet):
 
 class CliqueViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset= models.OpusClique.objects.all()
+    queryset= models.Clique.objects.all()
     serializer_class = serializers.CliqueSerializer
     
 class UserViewset(viewsets.ModelViewSet):

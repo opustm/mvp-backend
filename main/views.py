@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, Schedule, TimeFrame, Announcement
+from .models import Event, Invitation, User, SoloEvent, OpusTeam, Clique, Schedule, TimeFrame, Announcement
 from .serializers import TeamSerializer, CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer
 
 class UserDetails(APIView):
@@ -99,8 +99,8 @@ class CliqueDetails(APIView):
 
     def get_object(self, name):
         try:
-            return OpusClique.objects.get(name=name)
-        except OpusClique.DoesNotExist:
+            return Clique.objects.get(name=name)
+        except Clique.DoesNotExist:
             return False
 
     def get(self, request, name, format=None):
@@ -132,7 +132,7 @@ class CliqueMembers(APIView):
         except User.DoesNotExist:
             return False
     def get(self, request, name, format=None):
-        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueQuerySet = Clique.objects.values('id', 'name')
         cliqueid=None
         for clique in cliqueQuerySet:
             if clique['name']==name:
@@ -157,7 +157,7 @@ class CliqueEvents(APIView):
             return False
 
     def get(self, request, name, format=None):
-        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueQuerySet = Clique.objects.values('id', 'name')
         cliqueid=None
         for clique in cliqueQuerySet:
             if clique['name']==name:
@@ -288,7 +288,7 @@ class CliqueAnnouncements(APIView):
             return False
 
     def get(self, request, name, format=None):
-        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueQuerySet = Clique.objects.values('id', 'name')
         cliqueid=None
         for clique in cliqueQuerySet:
             if clique['name']==name:
