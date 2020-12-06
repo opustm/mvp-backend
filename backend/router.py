@@ -4,7 +4,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register('teams', TeamViewset)
 router.register('cliques', CliqueViewset)
-router.register('userss', UserViewset)
+router.register('users', UserViewset)
 router.register('invitations', InvitationViewset)
 router.register('events', EventViewset)
 router.register('soloEvents', SoloEventViewset)
