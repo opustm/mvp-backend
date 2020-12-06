@@ -14,6 +14,8 @@ def documentation(request):
             <h1>Custom Views</h1>
             <h3>User</h3>
             <ul>
+                <li><a href="/currentUser/">/currentUser/</a></li>
+                <li><a href="/addUser/">/addUser/</a></li>
                 <li><a href="/users/">/users/</a></li>
                 <li><a href="/users/4/">/users/&lt;userId&gt;/</a></li>
                 <li><a href="/userDetails/barackO/">/userDetails/&lt;userName&gt;/</a></li>
