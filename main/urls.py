@@ -4,7 +4,7 @@ from .views import current_user, UserList, index, team, UserDetails, TeamDetails
 urlpatterns = [
     path('', index),
     path('current_user/', current_user),
-    path('users/', UserList.as_view()),
+    # path('users/', UserList.as_view()),
     path('userDetails/<str:username>/', UserDetails.as_view()),
     path('teamDetails/<str:name>/', TeamDetails.as_view()),
     path('teamMembers/<str:name>/', TeamMembers.as_view()),
