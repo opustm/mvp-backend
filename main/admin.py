@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import User, OpusTeam, Clique, Event, SoloEvent, Invitation, TimeFrame, Schedule
+from main.models import User, Clique, Event, SoloEvent, Invitation, TimeFrame, Schedule
 
 
 admin.site.register(User)
