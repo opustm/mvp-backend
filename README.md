@@ -4,11 +4,11 @@
 # Endpoints:
 ## User
 - /users/
-- /user/&lt;userId&gt;/
+- /users/&lt;userId&gt;/
 - /userDetails/&lt;userName&gt;/
 ## Team
 - /teams/
-- /team/&lt;teamId&gt;/
+- /teams/&lt;teamId&gt;/
 - /teamDetails/&lt;teamName&gt;/
 - /teamMembers/&lt;teamName&gt;/
 ## Clique
