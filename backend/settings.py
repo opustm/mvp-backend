@@ -61,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-AUTH_USER_MODEL = 'main.User'
+# AUTH_USER_MODEL = 'main.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -85,6 +85,10 @@ CORS_ALLOWED_ORIGINS = (
 )
 
 CSRF_TRUSTED_ORIGINS = ['localhost:3000', 'opustm.herokuapp.com']
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+)
 
 
 ROOT_URLCONF = 'backend.urls'
