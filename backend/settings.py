@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'django_extensions',
     'rest_framework',
+    'rest_framework.auth_token',
     'corsheaders',
     'main.apps.MainConfig',
 ]
@@ -61,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# AUTH_USER_MODEL = 'main.User'
+AUTH_USER_MODEL = 'main.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
