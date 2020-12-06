@@ -1,9 +1,10 @@
 from django.urls import path, include
-from .views import current_user, index, team, UserDetails, TeamDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, TeamMembers, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements
+from .views import current_user, UserList, index, team, UserDetails, TeamDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, TeamMembers, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements
 
 urlpatterns = [
     path('', index),
     path('current_user/', current_user),
+    path('users/', UserList.as_view),
     path('userDetails/<str:username>/', UserDetails.as_view()),
     path('teamDetails/<str:name>/', TeamDetails.as_view()),
     path('teamMembers/<str:name>/', TeamMembers.as_view()),
