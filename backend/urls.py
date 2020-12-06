@@ -7,7 +7,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 
 
 urlpatterns = [
-    path('token-auth/', obtain_jwt_token),
+    path('tokenAuth/', obtain_jwt_token),
     path('', documentation, name='documentation'),
     path('/', include('main.urls')),
     path('', include(router.urls)),
