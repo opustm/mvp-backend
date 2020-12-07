@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import current_user, UserList, index, UserDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements, CliqueCliqueMessages, UserDirectMessagesSent, UserDirectMessagesRecieved
+from .views import current_user, UserList, UserToDos, index, UserDetails, CliqueDetails, CliqueEvents, UserSoloEvents, InvitationDetails, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements, CliqueCliqueMessages, UserDirectMessagesSent, UserDirectMessagesRecieved
 
 urlpatterns = [
     path('', index),
@@ -15,5 +15,6 @@ urlpatterns = [
     path('scheduleTimeFrames/<int:scheduleId>/', ScheduleTimeFrames.as_view()),
     path('cliqueMesssages/<str:name>/', CliqueCliqueMessages.as_view()),
     path('userDirectMessagesSent/<str:username>/', UserDirectMessagesSent.as_view()),
-    path('userDirectMessagesRecieved/<str:username>/', UserDirectMessagesRecieved.as_view())
+    path('userDirectMessagesRecieved/<str:username>/', UserDirectMessagesRecieved.as_view()),
+    path('userToDos/<str:username>/', UserToDos.as_view())
 ]

@@ -57,3 +57,8 @@ class ReactionViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     queryset= models.Reaction.objects.all()
     serializer_class = serializers.ReactionSerializer
+
+class ToDoViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.ToDo.objects.all()
+    serializer_class = serializers.ToDoSerializer

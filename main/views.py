@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, Reaction, DirectMessage, CliqueMessage
-from .serializers import CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer, ReactionSerializer, DirectMessageSerializer, CliqueMessageSerializer
+from .models import Event, ToDo, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, Reaction, DirectMessage, CliqueMessage
+from .serializers import CliqueSerializer, ToDoSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer, ReactionSerializer, DirectMessageSerializer, CliqueMessageSerializer
 
 class UserDetails(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -331,6 +331,35 @@ class UserDirectMessagesRecieved(APIView):
                     directMessages.append(DirectMessageSerializer(self.get_object(directMessageid)).data)
                 if directMessages:
                     return Response(directMessages, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserToDos(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, toDoid):
+        try:
+            return ToDo.objects.get(id=toDoid)
+        except ToDo.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            toDoQuerySet = ToDo.objects.values('user', 'id')
+            idsOfUsersToDos=[]
+            for toDo in toDoQuerySet:
+                if toDo['user']==userid:
+                    idsOfUsersToDos.append(toDo['id'])
+            if idsOfUsersToDos:
+                toDos=[]
+                for toDoid in idsOfUsersToDos:
+                    toDos.append(ToDoSerializer(self.get_object(toDoid)).data)
+                if toDos:
+                    return Response(toDos, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 

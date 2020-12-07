@@ -126,3 +126,8 @@ class CliqueMessage(models.Model):
     message = models.CharField(max_length=500, default='message text')
     sentAt = models.DateTimeField()
     reaction = models.ManyToManyField(Reaction, related_name='cliqueMessageReaction')
+
+class ToDo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userToDo')
+    name = models.CharField(max_length=100, default='laundry')
+    due = models.DateTimeField()
