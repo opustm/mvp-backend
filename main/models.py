@@ -108,3 +108,21 @@ class Announcement(models.Model):
     announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
     def __str__(self):
         return f'{self.clique}: {self.announcement} with event {self.event}.'
+
+class Reaction(models.Model):
+    reactor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userReactor')
+    reaction = models.CharField(max_length=100, default='thumbs up')
+
+class DirectMessage(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userSenderDM')
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userRecipientDM')
+    message = models.CharField(max_length=500, default='message text')
+    sentAt = models.DateTimeField()
+    reaction = models.ManyToManyField(Reaction, related_name='directMessageReaction')
+
+class CliqueMessage(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userSenderCM')
+    recipient = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueRecipientCM')
+    message = models.CharField(max_length=500, default='message text')
+    sentAt = models.DateTimeField()
+    reaction = models.ManyToManyField(Reaction, related_name='cliqueMessageReaction')

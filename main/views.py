@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement
-from .serializers import CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer
+from .models import Event, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, Reaction, DirectMessage, CliqueMessage
+from .serializers import CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer, ReactionSerializer, DirectMessageSerializer, CliqueMessageSerializer
 
 class UserDetails(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -249,6 +249,89 @@ class CliqueAnnouncements(APIView):
             return Response(announcements, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+class CliqueCliqueMessages(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, cliquemessageid):
+        try:
+            return CliqueMessage.objects.get(id=cliquemessageid)
+        except CliqueMessage.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        cliqueQuerySet = Clique.objects.values('id', 'name')
+        cliqueid=None
+        for clique in cliqueQuerySet:
+            if clique['name']==name:
+                cliqueid=clique['id']
+        if cliqueid:
+            cliqueMessageQuerySet=CliqueMessage.objects.values('id', 'clique')
+            cliqueMessages=[]
+            for cliqueMessage in cliqueMessageQuerySet:
+                if cliqueMessage["clique"]==cliqueid:
+                    cliqueMessages.append(CliqueMessageSerializer(self.get_object(cliqueMessage['id'])).data)
+            return Response(cliqueMessages, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserDirectMessagesSent(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, directMessageid):
+        try:
+            return DirectMessage.objects.get(id=directMessageid)
+        except DirectMessage.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            directMessageQuerySet = DirectMessage.objects.values('sender', 'id')
+            idsOfUsersDirectMessages=[]
+            for directMessage in directMessageQuerySet:
+                if directMessage['sender']==userid:
+                    idsOfUsersDirectMessages.append(directMessage['id'])
+            if idsOfUsersDirectMessages:
+                directMessages=[]
+                for directMessageid in idsOfUsersDirectMessages:
+                    directMessages.append(DirectMessageSerializer(self.get_object(directMessageid)).data)
+                if directMessages:
+                    return Response(directMessages, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserDirectMessagesRecieved(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, directMessageid):
+        try:
+            return DirectMessage.objects.get(id=directMessageid)
+        except DirectMessage.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            directMessageQuerySet = DirectMessage.objects.values('recipient', 'id')
+            idsOfUsersDirectMessages=[]
+            for directMessage in directMessageQuerySet:
+                if directMessage['recipient']==userid:
+                    idsOfUsersDirectMessages.append(directMessage['id'])
+            if idsOfUsersDirectMessages:
+                directMessages=[]
+                for directMessageid in idsOfUsersDirectMessages:
+                    directMessages.append(DirectMessageSerializer(self.get_object(directMessageid)).data)
+                if directMessages:
+                    return Response(directMessages, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 def index(request):
