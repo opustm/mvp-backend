@@ -1,5 +1,18 @@
-## Home to the opus-tm Django REST API: [API](https://opustm-api.herokuapp.com/)
-## This API serves our React Web App: [OpusTm](https://opustm.herokuapp.com/)
+## Home to the opus-tm Django REST [API](https://opustm-api.herokuapp.com/)
+## This API serves our React Web [App](https://opustm.herokuapp.com/)
+
+## Test Users:
+### password and username are the same
+### email is &lt;username&gt;@example.com
+- test
+- dvader
+- lukeskywalker
+- leiaskywalker
+
+## Test Cliques:
+- Test
+- The Dark Side
+
 # Endpoints:
 ## User
 - /currentUser/
