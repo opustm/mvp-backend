@@ -60,8 +60,11 @@ class User(AbstractUser):
 class Invitation(models.Model):#will need to delete each row once invitee_email joins team
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueInvitation')
     invitee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invitee', blank=True)
+    inviter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='inviter', blank=True)
+    message = models.CharField(max_length=100, default='Please join our group.')
     inviteeEmail=models.CharField(max_length=100, default='asdf@example.com')
     dateInvited=models.DateTimeField()
+    
 
     def __str__(self):
         return '{} invited to {} by {}'.format(self.inviteeEmail, self.clique, self.inviter)
@@ -135,4 +138,5 @@ class ToDo(models.Model):
 class Request(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userRequest')
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueRequest')
+    message = models.CharField(max_length=100, default='Please let me join our group.')
     dateRequested = models.DateTimeField()
