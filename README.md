@@ -2,6 +2,7 @@
 ## This API serves our React Web [App](https://opustm.herokuapp.com/)
 
 ### Test Users: (password and username are the same, email is &lt;username&gt;@example.com)
+For the time-being, please do not register any more users unless testing email invitation/registration - Management
 - test
 - dvader
 - lukeskywalker
@@ -10,8 +11,6 @@
 ### Test Cliques:
 - Test
 - The Dark Side
-
-### For the time-being, please do not register any more users unless testing email invitation/registration - Management
 
 # Endpoints:
 ## User
