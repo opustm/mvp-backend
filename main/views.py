@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, ToDo, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, Reaction, DirectMessage, CliqueMessage
-from .serializers import CliqueSerializer, ToDoSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer, ReactionSerializer, DirectMessageSerializer, CliqueMessageSerializer
+from .models import Event, ToDo, Request, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, Reaction, DirectMessage, CliqueMessage
+from .serializers import CliqueSerializer, RequestSerializer, ToDoSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer, ReactionSerializer, DirectMessageSerializer, CliqueMessageSerializer
 
 class UserDetails(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -30,7 +30,7 @@ class UserDetails(APIView):
 
     def put(self, request, username, format=None):
         inv = self.get_object(username)
-        serializer = InvitationSerializer(inv, data=request.data)
+        serializer = UserSerializer(inv, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -38,6 +38,35 @@ class UserDetails(APIView):
 
     def delete(self, request, username, format=None):
         inv = self.get_object(username)
+        inv.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserEmailDetails(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, userEmail):
+        try:
+            return User.objects.get(email=userEmail)
+        except User.DoesNotExist:
+            return False
+
+    def get(self, request, userEmail, format=None):
+        user = self.get_object(userEmail)
+        if user:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, userEmail, format=None):
+        inv = self.get_object(userEmail)
+        serializer = UserSerializer(inv, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, userEmail, format=None):
+        inv = self.get_object(userEmail)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -116,6 +145,56 @@ class CliqueEvents(APIView):
                 if event["clique"]==cliqueid:
                     events.append(EventSerializer(self.get_object(event['id'])).data)
             return Response(events, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserInvitations(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, invitationId):
+        try:
+            return Invitation.objects.get(id=invitationId)
+        except Invitation.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==name:
+                userid=user['id']
+        if userid:
+            invitationQuerySet=Invitation.objects.values('id', 'invitee')
+            invitations=[]
+            for invitation in invitationQuerySet:
+                if invitation["invitee"]==userid:
+                    invitations.append(InvitationSerializer(self.get_object(invitation['id'])).data)
+            return Response(invitations, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class CliqueRequests(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, requestId):
+        try:
+            return Request.objects.get(id=requestId)
+        except Request.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        cliqueQuerySet = Clique.objects.values('id', 'name')
+        cliqueid=None
+        for clique in cliqueQuerySet:
+            if clique['name']==name:
+                cliqueid=clique['id']
+        if cliqueid:
+            requestQuerySet=Request.objects.values('id', 'clique')
+            requests=[]
+            for request in requestQuerySet:
+                if request["clique"]==cliqueid:
+                    requests.append(RequestSerializer(self.get_object(request['id'])).data)
+            return Response(requests, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 

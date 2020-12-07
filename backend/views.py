@@ -18,7 +18,8 @@ def documentation(request):
                 <li><a href="/addUsers/">/addUsers/</a></li>
                 <li><a href="/users/">/users/</a></li>
                 <li><a href="/users/4/">/users/&lt;userId&gt;/</a></li>
-                <li><a href="/userDetails/barackO/">/userDetails/&lt;userName&gt;/</a></li>
+                <li><a href="/userDetails/barackO/">/userDetails/&lt;username&gt;/</a></li>
+                <li><a href="/userEmailDetails/barackO@example.com/">/userEmailDetails/&lt;userEmail&gt;/</a></li>
             </ul>
             <h3>Clique</h3>
             <ul>
@@ -32,6 +33,13 @@ def documentation(request):
                 <li><a href="/invitations/">/invitations/</a></li>
                 <li><a href="/invitations/1/">/invitation/&lt;invitationId&gt;/</a></li>
                 <li><a href="/invitationDetails/abc123/">/invitationDetails/&lt;inviteeEmail&gt;/</a></li>
+                <li><a href="/userInvitations/barackO/">/userInvitations/&lt;username&gt;/</a></li>
+            </ul>
+            <h3>Request</h3>
+            <ul>
+                <li><a href="/requests/">/requests/</a></li>
+                <li><a href="/requests/1/">/requests/&lt;requestId&gt;/</a></li>
+                <li><a href="/cliqueRequests/Dog Lovers/">/cliqueRequests/&lt;cliqueName&gt;/</a></li>
             </ul>
             <h3>Event</h3>
             <ul>

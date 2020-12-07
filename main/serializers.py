@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, ToDo, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, DirectMessage, CliqueMessage, Reaction
+from .models import Event, Request, ToDo, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, DirectMessage, CliqueMessage, Reaction
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -60,6 +60,11 @@ class ReactionSerializer(serializers.ModelSerializer):
 class ToDoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ToDo
+        fields = '__all__'
+
+class RequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Request
         fields = '__all__'
 
 class UserSerializerWithToken(serializers.ModelSerializer):

@@ -62,3 +62,8 @@ class ToDoViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     queryset= models.ToDo.objects.all()
     serializer_class = serializers.ToDoSerializer
+
+class RequestViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.Request.objects.all()
+    serializer_class = serializers.RequestSerializer
