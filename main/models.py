@@ -111,7 +111,7 @@ class Announcement(models.Model):
 
 class Reaction(models.Model):
     reactor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userReactor')
-    reaction = models.CharField(max_length=100, default='thumbs up')
+    reaction = models.CharField(max_length=100, choices=[("thumbs up", "THUMBS UP"),("dislike","DISLIKE")],  default=("dislike", "DISLIKE"))
 
 class DirectMessage(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userSenderDM')
