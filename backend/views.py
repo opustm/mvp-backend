@@ -65,7 +65,7 @@ def documentation(request):
                 <li><a href="/announcements/1/">/announcements/&lt;announcementId&gt;/</a></li>
                 <li><a href="/cliqueAnnouncements/Dog Lovers/">/cliqueAnnouncements/&lt;cliqueName&gt;/</a></li>
             </ul>
-            <h3>Direct Message</h3>
+            <h3>Message</h3>
             <ul>
                 <li><a href="/directMessages/">/directMessages/</a></li>
                 <li><a href="/directMessages/1/">/directMessages/&lt;directMessageId&gt;/</a></li>
