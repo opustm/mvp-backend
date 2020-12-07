@@ -2,8 +2,7 @@
 ## This API serves our React Web [App](https://opustm.herokuapp.com/)
 
 ## Test Users:
-### password and username are the same
-### email is &lt;username&gt;@example.com
+### password and username are the same, email is &lt;username&gt;@example.com
 - test
 - dvader
 - lukeskywalker
