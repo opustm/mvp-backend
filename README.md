@@ -40,7 +40,7 @@
 - /announcements/
 - /announcements/&lt;announcementId&gt;/
 - /cliqueAnnouncements/&lt;cliqueName&gt;/
-## Messages
+## Message
 - /directMessages/
 - /directMessages/&lt;directMessageId&gt;/
 - /userDirectMessagesSent/&lt;username&gt;/
