@@ -66,6 +66,8 @@ def documentation(request):
                 <li><a href="/cliqueMessages/">/cliqueMessages/</a></li>
                 <li><a href="/cliqueMessages/1/">/cliqueMessages/&lt;cliqueMessageId&gt;/</a></li>
                 <li><a href="/cliqueCliqueMessages/Dog Lovers/">/cliqueCliqueMessages/&lt;cliqueName&gt;/</a></li>
+                <li><a href="/reactions/">/reactions/</a></li>
+                <li><a href="/reactions/1/">/reactions/&lt;reactionId&gt;/</a></li>
             </ul>
             <h3>To Do</h3>
             <ul>

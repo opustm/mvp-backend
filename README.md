@@ -42,6 +42,8 @@
 - /cliqueMessages/
 - /cliqueMessages/&lt;cliqueMessageId&gt;/
 - /cliqueCliqueMessages/&lt;cliqueName&gt;/
+- /reactions/
+- /reactions/&lt;reactionId&gt;/
 ## To Do
 - /toDos/
 - /toDos/&lt;toDoId&gt;/
