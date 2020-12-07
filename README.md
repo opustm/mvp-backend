@@ -15,7 +15,7 @@
 ## Invitation
 - /invitations/
 - /invitation/&lt;invitationId&gt;/
-- /invitationDetails/&lt;code&gt;/
+- /invitationDetails/&lt;inviteeEmail&gt;/
 ## Event
 - /events/
 - /events/&lt;cliqueEventId&gt;/
@@ -60,5 +60,3 @@ Alongside Django REST we also use JSON-Web Token authentication for secure data 
 
 ## CORS/CSRF: 
 We set up a white-list to only allow certain clients make requests to the API. This helps to make sure that only our React app will have access to the database.
-
-

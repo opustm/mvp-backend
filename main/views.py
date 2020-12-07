@@ -122,29 +122,29 @@ class CliqueEvents(APIView):
 class InvitationDetails(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get_object(self, code):
+    def get_object(self, inviteeEmail):
         try:
-            return Invitation.objects.get(code=code)
+            return Invitation.objects.get(inviteeEmail=inviteeEmail)
         except Invitation.DoesNotExist:
             return False
 
-    def get(self, request, code, format=None):#has to be by code unless it is a registered user.
-        inv = self.get_object(code)
+    def get(self, request, inviteeEmail, format=None):
+        inv = self.get_object(inviteeEmail)
         if inv:
             serializer = InvitationSerializer(inv)
             return Response(serializer.data)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def put(self, request, code, format=None):
-        inv = self.get_object(code)
+    def put(self, request, inviteeEmail, format=None):
+        inv = self.get_object(inviteeEmail)
         serializer = InvitationSerializer(inv, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, code, format=None):
-        inv = self.get_object(code)
+    def delete(self, request, inviteeEmail, format=None):
+        inv = self.get_object(inviteeEmail)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

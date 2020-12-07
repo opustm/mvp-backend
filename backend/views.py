@@ -31,7 +31,7 @@ def documentation(request):
             <ul>
                 <li><a href="/invitations/">/invitations/</a></li>
                 <li><a href="/invitations/1/">/invitation/&lt;invitationId&gt;/</a></li>
-                <li><a href="/invitationDetails/abc123/">/invitationDetails/&lt;code&gt;/</a></li>
+                <li><a href="/invitationDetails/abc123/">/invitationDetails/&lt;inviteeEmail&gt;/</a></li>
             </ul>
             <h3>Event</h3>
             <ul>
