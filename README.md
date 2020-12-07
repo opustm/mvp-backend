@@ -11,6 +11,8 @@
 - Test
 - The Dark Side
 
+## For the time-being, please do not register any more users unless testing email invitation/regitration. - Management
+
 # Endpoints:
 ## User
 - /currentUser/
