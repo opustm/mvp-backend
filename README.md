@@ -6,7 +6,8 @@
 - /addUsers/                  
 - /users/                         
 - /users/&lt;userId&gt;/
-- /userDetails/&lt;userName&gt;/
+- /userDetails/&lt;username&gt;/
+- /userEmailDetails/&lt;userEmail&gt;/
 ## Clique
 - /cliques/
 - /cliques/&lt;cliqueId&gt;/
@@ -16,6 +17,11 @@
 - /invitations/
 - /invitation/&lt;invitationId&gt;/
 - /invitationDetails/&lt;inviteeEmail&gt;/
+- /userInvitations/&lt;username&gt;/
+## Request
+- /requests/
+- /requests/&lt;requestId&gt;/
+- /cliqueRequests/&lt;cliqueName&gt;/
 ## Event
 - /events/
 - /events/&lt;cliqueEventId&gt;/
@@ -34,6 +40,20 @@
 - /announcements/
 - /announcements/&lt;announcementId&gt;/
 - /cliqueAnnouncements/&lt;cliqueName&gt;/
+## Messages
+- /directMessages/
+- /directMessages/&lt;directMessageId&gt;/
+- /userDirectMessagesSent/&lt;username&gt;/
+- /userDirectMessagesRecieved/&lt;username&gt;/
+- /cliqueMessages/
+- /cliqueMessages/&lt;cliqueMessageId&gt;/
+- /cliqueCliqueMessages/&lt;cliqueName&gt;/
+- /reactions/
+- /reactions/&lt;reactionId&gt;/
+## To Do
+- /toDos/
+- /toDos/&lt;toDoId&gt;/
+- /userToDos/&lt;username&gt;/
 ## Token
 - /tokenAuth/
 ## Django Admin

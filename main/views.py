@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement
-from .serializers import CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer
+from .models import Event, ToDo, Request, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, Reaction, DirectMessage, CliqueMessage
+from .serializers import CliqueSerializer, RequestSerializer, ToDoSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer, ReactionSerializer, DirectMessageSerializer, CliqueMessageSerializer
 
 class UserDetails(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -30,7 +30,7 @@ class UserDetails(APIView):
 
     def put(self, request, username, format=None):
         inv = self.get_object(username)
-        serializer = InvitationSerializer(inv, data=request.data)
+        serializer = UserSerializer(inv, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -38,6 +38,35 @@ class UserDetails(APIView):
 
     def delete(self, request, username, format=None):
         inv = self.get_object(username)
+        inv.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class UserEmailDetails(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, userEmail):
+        try:
+            return User.objects.get(email=userEmail)
+        except User.DoesNotExist:
+            return False
+
+    def get(self, request, userEmail, format=None):
+        user = self.get_object(userEmail)
+        if user:
+            serializer = UserSerializer(user)
+            return Response(serializer.data)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request, userEmail, format=None):
+        inv = self.get_object(userEmail)
+        serializer = UserSerializer(inv, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, userEmail, format=None):
+        inv = self.get_object(userEmail)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -116,6 +145,56 @@ class CliqueEvents(APIView):
                 if event["clique"]==cliqueid:
                     events.append(EventSerializer(self.get_object(event['id'])).data)
             return Response(events, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserInvitations(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, invitationId):
+        try:
+            return Invitation.objects.get(id=invitationId)
+        except Invitation.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==name:
+                userid=user['id']
+        if userid:
+            invitationQuerySet=Invitation.objects.values('id', 'invitee')
+            invitations=[]
+            for invitation in invitationQuerySet:
+                if invitation["invitee"]==userid:
+                    invitations.append(InvitationSerializer(self.get_object(invitation['id'])).data)
+            return Response(invitations, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class CliqueRequests(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, requestId):
+        try:
+            return Request.objects.get(id=requestId)
+        except Request.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        cliqueQuerySet = Clique.objects.values('id', 'name')
+        cliqueid=None
+        for clique in cliqueQuerySet:
+            if clique['name']==name:
+                cliqueid=clique['id']
+        if cliqueid:
+            requestQuerySet=Request.objects.values('id', 'clique')
+            requests=[]
+            for request in requestQuerySet:
+                if request["clique"]==cliqueid:
+                    requests.append(RequestSerializer(self.get_object(request['id'])).data)
+            return Response(requests, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -249,6 +328,118 @@ class CliqueAnnouncements(APIView):
             return Response(announcements, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
+
+class CliqueCliqueMessages(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, cliquemessageid):
+        try:
+            return CliqueMessage.objects.get(id=cliquemessageid)
+        except CliqueMessage.DoesNotExist:
+            return False
+
+    def get(self, request, name, format=None):
+        cliqueQuerySet = Clique.objects.values('id', 'name')
+        cliqueid=None
+        for clique in cliqueQuerySet:
+            if clique['name']==name:
+                cliqueid=clique['id']
+        if cliqueid:
+            cliqueMessageQuerySet=CliqueMessage.objects.values('id', 'clique')
+            cliqueMessages=[]
+            for cliqueMessage in cliqueMessageQuerySet:
+                if cliqueMessage["clique"]==cliqueid:
+                    cliqueMessages.append(CliqueMessageSerializer(self.get_object(cliqueMessage['id'])).data)
+            return Response(cliqueMessages, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserDirectMessagesSent(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, directMessageid):
+        try:
+            return DirectMessage.objects.get(id=directMessageid)
+        except DirectMessage.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            directMessageQuerySet = DirectMessage.objects.values('sender', 'id')
+            idsOfUsersDirectMessages=[]
+            for directMessage in directMessageQuerySet:
+                if directMessage['sender']==userid:
+                    idsOfUsersDirectMessages.append(directMessage['id'])
+            if idsOfUsersDirectMessages:
+                directMessages=[]
+                for directMessageid in idsOfUsersDirectMessages:
+                    directMessages.append(DirectMessageSerializer(self.get_object(directMessageid)).data)
+                if directMessages:
+                    return Response(directMessages, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserDirectMessagesRecieved(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, directMessageid):
+        try:
+            return DirectMessage.objects.get(id=directMessageid)
+        except DirectMessage.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            directMessageQuerySet = DirectMessage.objects.values('recipient', 'id')
+            idsOfUsersDirectMessages=[]
+            for directMessage in directMessageQuerySet:
+                if directMessage['recipient']==userid:
+                    idsOfUsersDirectMessages.append(directMessage['id'])
+            if idsOfUsersDirectMessages:
+                directMessages=[]
+                for directMessageid in idsOfUsersDirectMessages:
+                    directMessages.append(DirectMessageSerializer(self.get_object(directMessageid)).data)
+                if directMessages:
+                    return Response(directMessages, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+class UserToDos(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, toDoid):
+        try:
+            return ToDo.objects.get(id=toDoid)
+        except ToDo.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            toDoQuerySet = ToDo.objects.values('user', 'id')
+            idsOfUsersToDos=[]
+            for toDo in toDoQuerySet:
+                if toDo['user']==userid:
+                    idsOfUsersToDos.append(toDo['id'])
+            if idsOfUsersToDos:
+                toDos=[]
+                for toDoid in idsOfUsersToDos:
+                    toDos.append(ToDoSerializer(self.get_object(toDoid)).data)
+                if toDos:
+                    return Response(toDos, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 def index(request):

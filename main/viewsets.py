@@ -42,3 +42,28 @@ class AnnouncementViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
     queryset= models.Announcement.objects.all()
     serializer_class = serializers.AnnouncementSerializer
+
+class DirectMessageViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.DirectMessage.objects.all()
+    serializer_class = serializers.DirectMessageSerializer
+
+class CliqueMessageViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.CliqueMessage.objects.all()
+    serializer_class = serializers.CliqueMessageSerializer
+
+class ReactionViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.Reaction.objects.all()
+    serializer_class = serializers.ReactionSerializer
+
+class ToDoViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.ToDo.objects.all()
+    serializer_class = serializers.ToDoSerializer
+
+class RequestViewset(viewsets.ModelViewSet):
+    permission_classes = (permissions.AllowAny,)
+    queryset= models.Request.objects.all()
+    serializer_class = serializers.RequestSerializer

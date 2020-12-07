@@ -18,7 +18,8 @@ def documentation(request):
                 <li><a href="/addUsers/">/addUsers/</a></li>
                 <li><a href="/users/">/users/</a></li>
                 <li><a href="/users/4/">/users/&lt;userId&gt;/</a></li>
-                <li><a href="/userDetails/barackO/">/userDetails/&lt;userName&gt;/</a></li>
+                <li><a href="/userDetails/barackO/">/userDetails/&lt;username&gt;/</a></li>
+                <li><a href="/userEmailDetails/barackO@example.com/">/userEmailDetails/&lt;userEmail&gt;/</a></li>
             </ul>
             <h3>Clique</h3>
             <ul>
@@ -32,6 +33,13 @@ def documentation(request):
                 <li><a href="/invitations/">/invitations/</a></li>
                 <li><a href="/invitations/1/">/invitation/&lt;invitationId&gt;/</a></li>
                 <li><a href="/invitationDetails/abc123/">/invitationDetails/&lt;inviteeEmail&gt;/</a></li>
+                <li><a href="/userInvitations/barackO/">/userInvitations/&lt;username&gt;/</a></li>
+            </ul>
+            <h3>Request</h3>
+            <ul>
+                <li><a href="/requests/">/requests/</a></li>
+                <li><a href="/requests/1/">/requests/&lt;requestId&gt;/</a></li>
+                <li><a href="/cliqueRequests/Dog Lovers/">/cliqueRequests/&lt;cliqueName&gt;/</a></li>
             </ul>
             <h3>Event</h3>
             <ul>
@@ -56,6 +64,24 @@ def documentation(request):
                 <li><a href="/announcements/">/announcements/</a></li>
                 <li><a href="/announcements/1/">/announcements/&lt;announcementId&gt;/</a></li>
                 <li><a href="/cliqueAnnouncements/Dog Lovers/">/cliqueAnnouncements/&lt;cliqueName&gt;/</a></li>
+            </ul>
+            <h3>Direct Message</h3>
+            <ul>
+                <li><a href="/directMessages/">/directMessages/</a></li>
+                <li><a href="/directMessages/1/">/directMessages/&lt;directMessageId&gt;/</a></li>
+                <li><a href="/userDirectMessagesSent/barackO/">/userDirectMessagesSent/&lt;userame&gt;/</a></li>
+                <li><a href="/userDirectMessagesRecieved/barackO/">/userDirectMessagesRecieved/&lt;userame&gt;/</a></li>
+                <li><a href="/cliqueMessages/">/cliqueMessages/</a></li>
+                <li><a href="/cliqueMessages/1/">/cliqueMessages/&lt;cliqueMessageId&gt;/</a></li>
+                <li><a href="/cliqueCliqueMessages/Dog Lovers/">/cliqueCliqueMessages/&lt;cliqueName&gt;/</a></li>
+                <li><a href="/reactions/">/reactions/</a></li>
+                <li><a href="/reactions/1/">/reactions/&lt;reactionId&gt;/</a></li>
+            </ul>
+            <h3>To Do</h3>
+            <ul>
+                <li><a href="/toDos/">/toDos/</a></li>
+                <li><a href="/toDos/1/">/toDos/&lt;toDoId&gt;/</a></li>
+                <li><a href="/userToDos/barackO/">/userToDos/&lt;username&gt;/</a></li>
             </ul>
         </body>
     </html>
