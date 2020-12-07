@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
 
-from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, Schedule, TimeFrame, Announcement
-from .serializers import TeamSerializer, CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer
+from .models import Event, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement
+from .serializers import CliqueSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer
 
 class UserDetails(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -41,66 +41,13 @@ class UserDetails(APIView):
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-class TeamDetails(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, name):
-        try:
-            return OpusTeam.objects.get(name=name)
-        except OpusTeam.DoesNotExist:
-            return False
-
-    def get(self, request, name, format=None):
-        team = self.get_object(name)
-        if team:
-            serializer = TeamSerializer(team)
-            return Response(serializer.data)
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    def put(self, request, name, format=None):
-        team = self.get_object(name)
-        serializer = TeamSerializer(team, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, name, format=None):
-        team = self.get_object(name)
-        team.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-class TeamMembers(APIView):
-    permission_classes = (permissions.AllowAny,)
-
-    def get_object(self, username):
-        try:
-            return User.objects.get(username=username)
-        except User.DoesNotExist:
-            return False
-    def get(self, request, name, format=None):
-        teamQuerySet = OpusTeam.objects.values('id', 'name')
-        teamid=None
-        for team in teamQuerySet:
-            if team['name']==name:
-                teamid=team['id']
-        if teamid:
-            userQuerySet=User.objects.values('username', 'teams')
-            members=[]
-            for user in userQuerySet:
-                if user["teams"]==teamid:
-                    members.append(UserSerializer(self.get_object(user['username'])).data)
-            return Response(members, status=status.HTTP_200_OK)
-        else:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
 class CliqueDetails(APIView):
     permission_classes = (permissions.AllowAny,)
 
     def get_object(self, name):
         try:
-            return OpusClique.objects.get(name=name)
-        except OpusClique.DoesNotExist:
+            return Clique.objects.get(name=name)
+        except Clique.DoesNotExist:
             return False
 
     def get(self, request, name, format=None):
@@ -132,7 +79,7 @@ class CliqueMembers(APIView):
         except User.DoesNotExist:
             return False
     def get(self, request, name, format=None):
-        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueQuerySet = Clique.objects.values('id', 'name')
         cliqueid=None
         for clique in cliqueQuerySet:
             if clique['name']==name:
@@ -157,7 +104,7 @@ class CliqueEvents(APIView):
             return False
 
     def get(self, request, name, format=None):
-        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueQuerySet = Clique.objects.values('id', 'name')
         cliqueid=None
         for clique in cliqueQuerySet:
             if clique['name']==name:
@@ -175,29 +122,29 @@ class CliqueEvents(APIView):
 class InvitationDetails(APIView):
     permission_classes = (permissions.AllowAny,)
 
-    def get_object(self, code):
+    def get_object(self, inviteeEmail):
         try:
-            return Invitation.objects.get(code=code)
+            return Invitation.objects.get(inviteeEmail=inviteeEmail)
         except Invitation.DoesNotExist:
             return False
 
-    def get(self, request, code, format=None):#has to be by code unless it is a registered user.
-        inv = self.get_object(code)
+    def get(self, request, inviteeEmail, format=None):
+        inv = self.get_object(inviteeEmail)
         if inv:
             serializer = InvitationSerializer(inv)
             return Response(serializer.data)
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def put(self, request, code, format=None):
-        inv = self.get_object(code)
+    def put(self, request, inviteeEmail, format=None):
+        inv = self.get_object(inviteeEmail)
         serializer = InvitationSerializer(inv, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def delete(self, request, code, format=None):
-        inv = self.get_object(code)
+    def delete(self, request, inviteeEmail, format=None):
+        inv = self.get_object(inviteeEmail)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -288,7 +235,7 @@ class CliqueAnnouncements(APIView):
             return False
 
     def get(self, request, name, format=None):
-        cliqueQuerySet = OpusClique.objects.values('id', 'name')
+        cliqueQuerySet = Clique.objects.values('id', 'name')
         cliqueid=None
         for clique in cliqueQuerySet:
             if clique['name']==name:
@@ -307,12 +254,6 @@ class CliqueAnnouncements(APIView):
 def index(request):
     permission_classes = (permissions.AllowAny,)
     return HttpResponse("Welcome to the OPUS-TM API")
-
-@api_view(['GET'])
-def team(request):
-    permission_classes = (permissions.AllowAny,)
-    serializer=TeamSerializer(request.team)
-    return Response(serializer.data)
 
 @api_view(['GET'])
 def current_user(request):

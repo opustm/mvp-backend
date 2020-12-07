@@ -40,17 +40,11 @@ class AbstractGroup(models.Model):
     def natural_key(self):
         return (self.name,)
 
-class OpusTeam(AbstractGroup):
+class Clique(AbstractGroup):
+    cliqueType = models.CharField(max_length=100, choices=[("sub", "SUB"),("team","Team"), ("class","CLASS"), ("ensemble", "ENSEMBLE"), ("club", "CLUB"), ("social", "SOCIAL")], default=("sub", "SUB"))
+    parents = models.ManyToManyField("self", blank=True)
     picture = models.CharField(max_length=100, default='pic1')
-    class Meta:
-        verbose_name = _('team')
-        verbose_name_plural = _('teams')
-    def __str__(self):
-        return f'{self.name}'
 
-class OpusClique(AbstractGroup):
-    team = models.ForeignKey(OpusTeam, on_delete=models.CASCADE, related_name='cliquesTeam')
-    picture = models.CharField(max_length=100, default='pic1')
     class Meta:
         verbose_name = _('clique')
         verbose_name_plural = _('cliques')
@@ -61,20 +55,19 @@ class User(AbstractUser):
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
     phone = models.CharField(max_length=100, default='123-456-7890')
-    teams = models.ManyToManyField(OpusTeam, related_name='opusTeams')
-    cliques = models.ManyToManyField(OpusClique, related_name='opusCliques')
+    cliques = models.ManyToManyField(Clique, related_name='usersCliques')
 
 class Invitation(models.Model):#will need to delete each row once invitee_email joins team
-    clique = models.ForeignKey(OpusClique, on_delete=models.CASCADE, related_name='cliqueInvitation')
+    clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueInvitation')
     inviter=models.ForeignKey(User, on_delete=models.CASCADE, related_name='inviter')
     inviteeEmail=models.CharField(max_length=100, default='asdf@example.com')
     dateInvited=models.DateTimeField()
-    code=models.CharField(max_length=6, unique=True)
+
     def __str__(self):
         return '{} invited to {} by {}'.format(self.inviteeEmail, self.clique, self.inviter)
 
 class Event(models.Model):
-    clique = models.ForeignKey(OpusClique, on_delete=models.CASCADE, related_name='cliqueEvent')
+    clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueEvent')
     name = models.CharField(max_length=100, default='event')
     start = models.DateTimeField()
     end = models.DateTimeField()
@@ -83,7 +76,7 @@ class Event(models.Model):
     details = models.CharField(max_length=100, default='This event is blah blah blah..')
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
-        return f"{self.name} for {self.clique}"
+        return f"{self.name} for {self.clique}."
 
 class SoloEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent')#ONE USER HAS MANY EVENTS (ONE2ONE)
@@ -93,13 +86,13 @@ class SoloEvent(models.Model):
     details = models.CharField(max_length=100, default='This event is blah blah blah..')
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
-        return f"{self.name} for user {self.user} beginning {self.start}"
+        return f"{self.name} for user {self.user} beginning {self.start}."
 
 class Schedule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userSchedule')
-    teams = models.ManyToManyField(OpusTeam, related_name='teamsSchedule')
+    cliques = models.ManyToManyField(Clique, related_name='cliquesSchedule')
     def __str__(self):
-        return f'{self.user} schedule for {self.teams}'
+        return f'{self.user} schedule for {self.cliques}.'
 
 class TimeFrame(models.Model):
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE, related_name='scheduleTimeFrame')
@@ -107,11 +100,11 @@ class TimeFrame(models.Model):
     start = models.TimeField()
     end = models.TimeField()
     def __str__(self):
-        return f'{self.user}\'s typical schedule on {self.weekday}. Available from {self.start} to {self.end}. Used for {self.teams}'
+        return f'TimeFrame for {self.schedule} Available from {self.start} to {self.end} on {self.weekday}.'
 
 class Announcement(models.Model):
-    clique = models.ForeignKey(OpusClique, on_delete=models.CASCADE, related_name='cliqueAnnouncement')
+    clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueAnnouncement')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement')
     announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
     def __str__(self):
-        return f'{self.clique}: {self.announcement} with event {self.event}'
+        return f'{self.clique}: {self.announcement} with event {self.event}.'

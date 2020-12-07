@@ -1,20 +1,15 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, Invitation, User, SoloEvent, OpusTeam, OpusClique, Schedule, TimeFrame, Announcement
+from .models import Event, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'teams', 'cliques') 
-
-class TeamSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = OpusTeam
-        fields = '__all__'
+        fields = ('id', 'username', 'first_name', 'last_name', 'email', 'phone', 'picture', 'theme', 'cliques') 
 
 class CliqueSerializer(serializers.ModelSerializer):
     class Meta:
-        model = OpusClique
+        model = Clique
         fields = '__all__'
 
 class InvitationSerializer(serializers.ModelSerializer):

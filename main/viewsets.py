@@ -3,14 +3,9 @@ from . import models
 from . import serializers
 from rest_framework import permissions, status
 
-class TeamViewset(viewsets.ModelViewSet):
-    permission_classes = (permissions.AllowAny,)
-    queryset= models.OpusTeam.objects.all()
-    serializer_class = serializers.TeamSerializer
-
 class CliqueViewset(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny,)
-    queryset= models.OpusClique.objects.all()
+    queryset= models.Clique.objects.all()
     serializer_class = serializers.CliqueSerializer
     
 class UserViewset(viewsets.ModelViewSet):
