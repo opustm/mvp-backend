@@ -57,6 +57,22 @@ def documentation(request):
                 <li><a href="/announcements/1/">/announcements/&lt;announcementId&gt;/</a></li>
                 <li><a href="/cliqueAnnouncements/Dog Lovers/">/cliqueAnnouncements/&lt;cliqueName&gt;/</a></li>
             </ul>
+            <h3>Direct Message</h3>
+            <ul>
+                <li><a href="/directMessages/">/directMessages/</a></li>
+                <li><a href="/directMessages/1/">/directMessages/&lt;directMessageId&gt;/</a></li>
+                <li><a href="/userDirectMessagesSent/barackO/">/userDirectMessagesSent/&lt;userame&gt;/</a></li>
+                <li><a href="/userDirectMessagesRecieved/barackO/">/userDirectMessagesRecieved/&lt;userame&gt;/</a></li>
+                <li><a href="/cliqueMessages/">/cliqueMessages/</a></li>
+                <li><a href="/cliqueMessages/1/">/cliqueMessages/&lt;cliqueMessageId&gt;/</a></li>
+                <li><a href="/cliqueCliqueMessages/Dog Lovers/">/cliqueCliqueMessages/&lt;cliqueName&gt;/</a></li>
+            </ul>
+            <h3>To Do</h3>
+            <ul>
+                <li><a href="/toDos/">/toDos/</a></li>
+                <li><a href="/toDos/1/">/toDos/&lt;toDoId&gt;/</a></li>
+                <li><a href="/userToDos/barackO/">/userToDos/&lt;username&gt;/</a></li>
+            </ul>
         </body>
     </html>
     '''

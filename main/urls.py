@@ -13,7 +13,7 @@ urlpatterns = [
     path('userSoloEvents/<str:username>/', UserSoloEvents.as_view()),
     path('userSchedules/<str:username>/', UserSchedules.as_view()),
     path('scheduleTimeFrames/<int:scheduleId>/', ScheduleTimeFrames.as_view()),
-    path('cliqueMesssages/<str:name>/', CliqueCliqueMessages.as_view()),
+    path('cliqueCliqueMesssages/<str:name>/', CliqueCliqueMessages.as_view()),
     path('userDirectMessagesSent/<str:username>/', UserDirectMessagesSent.as_view()),
     path('userDirectMessagesRecieved/<str:username>/', UserDirectMessagesRecieved.as_view()),
     path('userToDos/<str:username>/', UserToDos.as_view())

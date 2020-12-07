@@ -34,6 +34,18 @@
 - /announcements/
 - /announcements/&lt;announcementId&gt;/
 - /cliqueAnnouncements/&lt;cliqueName&gt;/
+## Messages
+- /directMessages/
+- /directMessages/&lt;directMessageId&gt;/
+- /userDirectMessagesSent/&lt;username&gt;/
+- /userDirectMessagesRecieved/&lt;username&gt;/
+- /cliqueMessages/
+- /cliqueMessages/&lt;cliqueMessageId&gt;/
+- /cliqueCliqueMessages/&lt;cliqueName&gt;/
+## To Do
+- /toDos/
+- /toDos/&lt;toDoId&gt;/
+- /userToDos/&lt;username&gt;/
 ## Token
 - /tokenAuth/
 ## Django Admin
