@@ -8,6 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import viewsets
+import json
 
 from .models import Event, ToDo, Request, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, Reaction, DirectMessage, CliqueMessage
 from .serializers import CliqueSerializer, RequestSerializer, ToDoSerializer, UserSerializer, AnnouncementSerializer, InvitationSerializer, EventSerializer, SoloEventSerializer, UserSerializerWithToken, ScheduleSerializer, TimeFrameSerializer, ReactionSerializer, DirectMessageSerializer, CliqueMessageSerializer
@@ -70,6 +71,30 @@ class UserEmailDetails(APIView):
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+class UserCliques(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object_byid(self, id):
+        try:
+            return Clique.objects.get(id=id)
+        except Clique.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('cliques', 'username')
+        cliqueids=[]
+        for user in userQuerySet:
+            if user['username']==username:
+                cliqueids.append(user['cliques'])
+        if cliqueids:
+            members=[]
+            for cliqueid in cliqueids:
+                members.append(CliqueSerializer(self.get_object_byid(cliqueid)).data)
+            return Response(members, status=status.HTTP_200_OK)
+
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 class CliqueDetails(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -120,6 +145,57 @@ class CliqueMembers(APIView):
                 if user["cliques"]==cliqueid:
                     members.append(UserSerializer(self.get_object(user['username'])).data)
             return Response(members, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class RelatedCliques(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object_byid(self, id):
+        try:
+            return Clique.objects.get(id=id)
+        except Clique.DoesNotExist:
+            return False
+    def get(self, request, name, format=None):
+        cliqueQuerySet = Clique.objects.values('relatedCliques', 'name')
+        related=[]
+        for clique in cliqueQuerySet:
+            if clique['name']==name:
+                related.append(clique['relatedCliques'])
+        if related:
+            members=[]
+            for cliqueid in related:
+                members.append(CliqueSerializer(self.get_object_byid(cliqueid)).data)
+            return Response(members, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+class ManyRelatedCliques(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object_byid(self, id):
+        try:
+            return Clique.objects.get(id=id)
+        except Clique.DoesNotExist:
+            return False
+    def get(self, request, names, format=None):
+        nameList=names.split('&')
+        allCliquesRelatedCliques={}
+        for name in nameList:
+            cliqueQuerySet = Clique.objects.values('relatedCliques', 'name')
+            related=[]
+            for clique in cliqueQuerySet:
+                if clique['name']==name:
+                    related.append(clique['relatedCliques'])
+            if related:
+                members=[]
+                for cliqueid in related:
+                    members.append(CliqueSerializer(self.get_object_byid(cliqueid)).data)
+                allCliquesRelatedCliques[name]=members
+            else:
+                allCliquesRelatedCliques[name]="404_NOT_FOUND"
+        if allCliquesRelatedCliques:
+            return Response(allCliquesRelatedCliques, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
