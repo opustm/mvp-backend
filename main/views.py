@@ -148,6 +148,25 @@ class CliqueMembers(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+class CliqueIdMembers(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, id):
+        try:
+            return User.objects.get(id=id)
+        except User.DoesNotExist:
+            return False
+    def get(self, request, id, format=None):
+        userQuerySet=User.objects.values('id', 'cliques')
+        members=[]
+        for user in userQuerySet:
+            if user["cliques"]==id:
+                members.append(UserSerializer(self.get_object(user['id'])).data)
+        if members:
+            return Response(members, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 class RelatedCliques(APIView):
     permission_classes = (permissions.AllowAny,)
 
