@@ -76,14 +76,18 @@ REST_FRAMEWORK = {
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOWED_ORIGINS = (
     'http://localhost:3000',
     'https://opustm.herokuapp.com',
-    ]
-CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:3000',
-    'https://opustm.herokuapp.com',
-    ]
+)
+
+CSRF_TRUSTED_ORIGINS = ['localhost:3000', 'opustm.herokuapp.com']
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
+)
 
 
 ROOT_URLCONF = 'backend.urls'
