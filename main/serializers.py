@@ -33,9 +33,25 @@ class SoloEventSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ScheduleSerializer(serializers.ModelSerializer):
+    timeframes = serializers.SerializerMethodField()
+    user = serializers.SerializerMethodField()
+    cliques = serializers.SerializerMethodField()
+
     class Meta:
         model = Schedule
         fields = '__all__'
+
+    def get_timeframes(self, obj):
+        data = TimeFrameSerializer(obj.scheduleTimeFrame.all(), many=True).data
+        return data
+
+    def get_user(self, obj):
+        data = UserSerializer(obj.user).data
+        return data
+
+    def get_cliques(self, obj):
+        data = CliqueSerializer(obj.cliques.all(), many=True).data
+        return data
 
 class TimeFrameSerializer(serializers.ModelSerializer):
     class Meta:
