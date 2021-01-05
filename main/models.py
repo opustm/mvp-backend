@@ -56,6 +56,8 @@ class User(AbstractUser):
     theme = models.CharField(max_length=100, default='theme1')
     phone = models.CharField(max_length=100, default='123-456-7890')
     cliques = models.ManyToManyField(Clique, related_name='usersCliques')
+    def usercode(self):
+        return f'{self.username}{self.email}'
 
 class Invitation(models.Model):#will need to delete each row once invitee_email joins team
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueInvitation')

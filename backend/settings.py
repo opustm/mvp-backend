@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import dj_database_url
 import os
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -113,16 +114,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-# DATABASES={}
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
-DATABASES = {
-    'default': {
+DATABASES={}
+
+if 'test' in sys.argv:
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+        }
+else:
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'd3ucugchgunj1h',
         'USER': 'jccljrzydpfygp',
@@ -130,12 +131,9 @@ DATABASES = {
         'HOST': 'ec2-54-158-222-248.compute-1.amazonaws.com',
         'PORT': '5432',
     }
-}
-# postgres://jccljrzydpfygp:8d28f514694ad0f24698f04103e3888be266fbde875cd9a924e5a74c356eec15@ec2-54-158-222-248.compute-1.amazonaws.com:5432/d3ucugchgunj1h
+    DATABASES['default'] = dj_database_url.parse('postgres://jccljrzydpfygp:8d28f514694ad0f24698f04103e3888be266fbde875cd9a924e5a74c356eec15@ec2-54-158-222-248.compute-1.amazonaws.com:5432/d3ucugchgunj1h', conn_max_age=600)
+    
 
-# db_from_env = dj_database_url.config('postgres://jccljrzydpfygp:8d28f514694ad0f24698f04103e3888be266fbde875cd9a924e5a74c356eec15@ec2-54-158-222-248.compute-1.amazonaws.com:5432/d3ucugchgunj1h',conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
-DATABASES['default'] = dj_database_url.parse('postgres://jccljrzydpfygp:8d28f514694ad0f24698f04103e3888be266fbde875cd9a924e5a74c356eec15@ec2-54-158-222-248.compute-1.amazonaws.com:5432/d3ucugchgunj1h', conn_max_age=600)
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
