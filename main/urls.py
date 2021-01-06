@@ -10,6 +10,7 @@ urlpatterns = [
     path('cliqueDetails/<str:name>/', CliqueDetails.as_view()),
     path('cliqueMembers/<str:name>/', CliqueMembers.as_view()),    
     path('cliqueidMembers/<int:id>/', CliqueIdMembers.as_view()),    
+    path('cliqueAnnouncements/<str:name>/', CliqueAnnouncements.as_view()),  
     path('userInvitations/<str:username>/', UserInvitations.as_view()),
     path('invitationDetails/<str:inviteeEmail>/', InvitationDetails.as_view()),
     path('cliqueRequests/<str:cliqueName>/', CliqueRequests.as_view()),
