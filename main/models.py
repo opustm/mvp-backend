@@ -41,6 +41,7 @@ class AbstractGroup(models.Model):
         return (self.name,)
 
 class Clique(AbstractGroup):
+    workspace = models.CharField(max_length=100, default="general")
     cliqueType = models.CharField(max_length=100, choices=[("sub", "SUB"),("team","Team"), ("class","CLASS"), ("ensemble", "ENSEMBLE"), ("club", "CLUB"), ("social", "SOCIAL")], default=("sub", "SUB"))
     relatedCliques = models.ManyToManyField("self", blank=True)
     picture = models.CharField(max_length=100, default='pic1')
@@ -57,7 +58,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=100, default='123-456-7890')
     cliques = models.ManyToManyField(Clique, related_name='usersCliques')
     def usercode(self):
-        return f'{self.username}{self.email}'
+        return f'{self.username}'
 
 class Invitation(models.Model):#will need to delete each row once invitee_email joins team
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueInvitation')
