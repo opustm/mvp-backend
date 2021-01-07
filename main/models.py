@@ -111,6 +111,8 @@ class TimeFrame(models.Model):
 class Announcement(models.Model):
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueAnnouncement')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement')
+    creator = models.ForeignKey(User, default=1, on_delete=models.CASCADE, related_name='creatorAnnouncement')
+    priority = models.IntegerField(default=1)
     announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
     def __str__(self):
         return f'{self.clique}: {self.announcement} with event {self.event}.'
