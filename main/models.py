@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission, GroupMan
 from django.utils.translation import gettext_lazy as _
 from django.db.models.fields import BooleanField
 from django.db.models.fields import related
-import datetime
+from datetime import datetime
 
 class AbstractGroup(models.Model):
     """
@@ -110,10 +110,11 @@ class TimeFrame(models.Model):
 
 class Announcement(models.Model):
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueAnnouncement')
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement', blank=True, null=True)
     creator = models.ForeignKey(User, default=1, on_delete=models.CASCADE, related_name='creatorAnnouncement')
     priority = models.IntegerField(default=1)
     announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
+    end = models.DateTimeField(blank=True, null=True)
     def __str__(self):
         return f'{self.clique}: {self.announcement} with event {self.event}.'
 
