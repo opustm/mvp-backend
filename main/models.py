@@ -45,6 +45,7 @@ class Clique(AbstractGroup):
     cliqueType = models.CharField(max_length=100, choices=[("sub", "SUB"),("team","Team"), ("class","CLASS"), ("ensemble", "ENSEMBLE"), ("club", "CLUB"), ("social", "SOCIAL")], default=("sub", "SUB"))
     relatedCliques = models.ManyToManyField("self", blank=True)
     picture = models.CharField(max_length=100, default='pic1')
+    displayName = models.CharField(max_length=30, default='group')
 
     class Meta:
         verbose_name = _('clique')
