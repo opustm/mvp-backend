@@ -115,6 +115,7 @@ class Announcement(models.Model):
     priority = models.IntegerField(default=1)
     announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
     end = models.DateTimeField(blank=True, null=True)
+    acknowledged = models.ManyToManyField(User, related_name='userAnnouncementAcknowledgment')
     def __str__(self):
         return f'{self.clique}: {self.announcement} with event {self.event}.'
 
