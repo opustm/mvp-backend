@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission, GroupManager
 from django.utils.translation import gettext_lazy as _
@@ -54,6 +55,7 @@ class Clique(AbstractGroup):
         return f'{self.name}'
 
 class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
     phone = models.CharField(max_length=100, default='123-456-7890')
@@ -114,7 +116,7 @@ class Announcement(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement', blank=True, null=True)
     creator = models.ForeignKey(User, default=1, on_delete=models.CASCADE, related_name='creatorAnnouncement')
     priority = models.IntegerField(default=1)
-    announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
+    announcement = models.CharField(max_length=280, default='\"Do your hw\" -management')
     end = models.DateTimeField(blank=True, null=True)
     acknowledged = models.ManyToManyField(User, related_name='userAnnouncementAcknowledgment')
     def __str__(self):
