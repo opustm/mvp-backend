@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
-from .models import Event, Request, ToDo, Invitation, User, SoloEvent, Clique, Schedule, TimeFrame, Announcement, DirectMessage, CliqueMessage, Reaction
+from .models import Event, Request, ToDo, Invitation, User, Clique, Schedule, TimeFrame, Announcement, DirectMessage, CliqueMessage, Reaction
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,11 +25,6 @@ class AnnouncementSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields = '__all__'
-
-class SoloEventSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SoloEvent
         fields = '__all__'
 
 class ScheduleSerializer(serializers.ModelSerializer):
