@@ -243,6 +243,31 @@ class CliqueEvents(APIView):
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+class UserEvents(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def get_object(self, eventid):
+        try:
+            return Event.objects.get(id=eventid)
+        except Event.DoesNotExist:
+            return False
+
+    def get(self, request, username, format=None):
+        userQuerySet = User.objects.values('id', 'username')
+        userid=None
+        for user in userQuerySet:
+            if user['username']==username:
+                userid=user['id']
+        if userid:
+            eventQuerySet=Event.objects.values('id', 'user')
+            events=[]
+            for event in eventQuerySet:
+                if event["user"]==userid:
+                    events.append(EventSerializer(self.get_object(event['id'])).data)
+            return Response(events, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
 class UserInvitations(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -321,6 +346,8 @@ class InvitationDetails(APIView):
         inv = self.get_object(inviteeEmail)
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
 
 class UserSchedules(APIView):
