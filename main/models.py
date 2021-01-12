@@ -76,7 +76,8 @@ class Invitation(models.Model):#will need to delete each row once invitee_email 
         return '{} invited to {} by {}'.format(self.inviteeEmail, self.clique, self.inviter)
 
 class Event(models.Model):
-    clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueEvent', blank=True, null=True)
+    clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueEvent', blank=True, null=True)#ONE TEAM CAN HAVE MANY EVENTS (ONE2M)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent', blank=True, null=True)#ONE USER CAN HAVE MANY EVENTS (ONE2M)
     name = models.CharField(max_length=100, default='event')
     start = models.DateTimeField()
     end = models.DateTimeField()
