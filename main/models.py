@@ -56,6 +56,7 @@ class Clique(AbstractGroup):
 
 class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
+    bio = models.CharField(max_length=160, default='hi there. please call me Steve.')
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
     phone = models.CharField(max_length=100, default='123-456-7890')
