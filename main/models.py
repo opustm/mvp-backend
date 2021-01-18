@@ -71,7 +71,6 @@ class Invitation(models.Model):#will need to delete each row once invitee_email 
     inviteeEmail=models.CharField(max_length=100, default='asdf@example.com')
     dateInvited=models.DateTimeField()
     
-
     def __str__(self):
         return '{} invited to {} by {}'.format(self.inviteeEmail, self.clique, self.inviter)
 
@@ -87,16 +86,6 @@ class Event(models.Model):
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
         return f"{self.name} for {self.clique}."
-
-# class SoloEvent(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent')#ONE USER HAS MANY EVENTS (ONE2ONE)
-#     name = models.CharField(max_length=100, default='New Event')
-#     start = models.DateTimeField()
-#     end = models.DateTimeField()
-#     details = models.CharField(max_length=100, default='This event is blah blah blah..')
-#     picture = models.CharField(max_length=100, default='pic1')
-#     def __str__(self):
-#         return f"{self.name} for user {self.user} beginning {self.start}."
 
 class Schedule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userSchedule')
