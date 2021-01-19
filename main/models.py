@@ -1,9 +1,10 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission, GroupManager
 from django.utils.translation import gettext_lazy as _
 from django.db.models.fields import BooleanField
 from django.db.models.fields import related
-import datetime
+from datetime import datetime
 
 class AbstractGroup(models.Model):
     """
@@ -41,9 +42,11 @@ class AbstractGroup(models.Model):
         return (self.name,)
 
 class Clique(AbstractGroup):
+    workspace = models.CharField(max_length=100, default="general")
     cliqueType = models.CharField(max_length=100, choices=[("sub", "SUB"),("team","Team"), ("class","CLASS"), ("ensemble", "ENSEMBLE"), ("club", "CLUB"), ("social", "SOCIAL")], default=("sub", "SUB"))
     relatedCliques = models.ManyToManyField("self", blank=True)
     picture = models.CharField(max_length=100, default='pic1')
+    displayName = models.CharField(max_length=30, default='group')
 
     class Meta:
         verbose_name = _('clique')
@@ -52,10 +55,14 @@ class Clique(AbstractGroup):
         return f'{self.name}'
 
 class User(AbstractUser):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
+    bio = models.CharField(max_length=160, default='hi there. please call me Steve.')
     picture = models.CharField(max_length=100, default='pic1')
     theme = models.CharField(max_length=100, default='theme1')
     phone = models.CharField(max_length=100, default='123-456-7890')
     cliques = models.ManyToManyField(Clique, related_name='usersCliques')
+    def usercode(self):
+        return f'{self.username}'
 
 class Invitation(models.Model):#will need to delete each row once invitee_email joins team
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueInvitation')
@@ -65,31 +72,21 @@ class Invitation(models.Model):#will need to delete each row once invitee_email 
     inviteeEmail=models.CharField(max_length=100, default='asdf@example.com')
     dateInvited=models.DateTimeField()
     
-
     def __str__(self):
         return '{} invited to {} by {}'.format(self.inviteeEmail, self.clique, self.inviter)
 
 class Event(models.Model):
-    clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueEvent')
+    clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueEvent', blank=True, null=True)#ONE TEAM CAN HAVE MANY EVENTS (ONE2M)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent', blank=True, null=True)#ONE USER CAN HAVE MANY EVENTS (ONE2M)
     name = models.CharField(max_length=100, default='event')
     start = models.DateTimeField()
     end = models.DateTimeField()
-    invited = models.ManyToManyField(User, related_name='eventInvited')
-    notGoing = models.ManyToManyField(User, related_name='notGoing')
+    invited = models.ManyToManyField(User, related_name='eventInvited', blank=True, null=True)
+    notGoing = models.ManyToManyField(User, related_name='notGoing', blank=True, null=True)
     details = models.CharField(max_length=100, default='This event is blah blah blah..')
     picture = models.CharField(max_length=100, default='pic1')
     def __str__(self):
         return f"{self.name} for {self.clique}."
-
-class SoloEvent(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userEvent')#ONE USER HAS MANY EVENTS (ONE2ONE)
-    name = models.CharField(max_length=100, default='New Event')
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    details = models.CharField(max_length=100, default='This event is blah blah blah..')
-    picture = models.CharField(max_length=100, default='pic1')
-    def __str__(self):
-        return f"{self.name} for user {self.user} beginning {self.start}."
 
 class Schedule(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='userSchedule')
@@ -107,8 +104,12 @@ class TimeFrame(models.Model):
 
 class Announcement(models.Model):
     clique = models.ForeignKey(Clique, on_delete=models.CASCADE, related_name='cliqueAnnouncement')
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement')
-    announcement = models.CharField(max_length=100, default='\"Do your hw\" -management')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='eventAnnouncement', blank=True, null=True)
+    creator = models.ForeignKey(User, default=1, on_delete=models.CASCADE, related_name='creatorAnnouncement')
+    priority = models.IntegerField(default=1)
+    announcement = models.CharField(max_length=280, default='\"Do your hw\" -management')
+    end = models.DateTimeField(blank=True, null=True)
+    acknowledged = models.ManyToManyField(User, related_name='userAnnouncementAcknowledgment')
     def __str__(self):
         return f'{self.clique}: {self.announcement} with event {self.event}.'
 

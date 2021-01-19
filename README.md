@@ -38,9 +38,6 @@ For the time-being, please do not register any more users unless testing email i
 - /events/
 - /events/&lt;cliqueEventId&gt;/
 - /cliqueEvents/&lt;cliqueName&gt;/
-- /soloEvents/
-- /soloEvents/&lt;userEventId&gt;/
-- /userSoloEvents/&lt;username&gt;/
 ## Schedule
 - /schedules/
 - /schedules/&lt;scheduleId&gt;/

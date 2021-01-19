@@ -1,11 +1,10 @@
 from django.contrib import admin
-from main.models import User, Clique, Event, SoloEvent, Invitation, TimeFrame, Schedule, Announcement, Reaction, DirectMessage, CliqueMessage, ToDo, Request
+from main.models import User, Clique, Event, Invitation, TimeFrame, Schedule, Announcement, Reaction, DirectMessage, CliqueMessage, ToDo, Request
 
 
 admin.site.register(User)
 admin.site.register(Clique)
 admin.site.register(Event)
-admin.site.register(SoloEvent)
 admin.site.register(Schedule)
 admin.site.register(TimeFrame)
 admin.site.register(Invitation)

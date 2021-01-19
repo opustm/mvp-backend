@@ -46,9 +46,6 @@ def documentation(request):
                 <li><a href="/events/">/events/</a></li>
                 <li><a href="/events/1/">/events/&lt;cliqueEventId&gt;/</a></li>
                 <li><a href="/cliqueEvents/Dog Lovers/">/cliqueEvents/&lt;cliqueName&gt;/</a></li>
-                <li><a href="/soloEvents/">/soloEvents/</a></li>
-                <li><a href="/soloEvents/1/">/soloEvents/&lt;userEventId&gt;/</a></li>
-                <li><a href="/userSoloEvents/barackO/">/userSoloEvents/&lt;username&gt;/</a></li>
             </ul>
             <h3>Schedule</h3>
             <ul>

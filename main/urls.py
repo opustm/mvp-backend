@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import current_user, UserList, CliqueRequests, UserEmailDetails, CliqueIdMembers, InvitationDetails, UserToDos, index, UserDetails, CliqueDetails, CliqueEvents, UserSoloEvents, UserInvitations, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements, CliqueCliqueMessages, UserDirectMessagesSent, UserDirectMessagesRecieved, UserCliques, RelatedCliques, ManyRelatedCliques
+from .views import current_user, UserList, CliqueRequests, UserEmailDetails, CliqueIdMembers, InvitationDetails, UserToDos, index, UserDetails, CliqueDetails, CliqueEvents, UserEvents, UserInvitations, CliqueMembers, UserSchedules, ScheduleTimeFrames, CliqueAnnouncements, CliqueCliqueMessages, UserDirectMessagesSent, UserDirectMessagesRecieved, UserCliques, RelatedCliques, ManyRelatedCliques
 
 urlpatterns = [
     path('', index),
@@ -10,11 +10,12 @@ urlpatterns = [
     path('cliqueDetails/<str:name>/', CliqueDetails.as_view()),
     path('cliqueMembers/<str:name>/', CliqueMembers.as_view()),    
     path('cliqueidMembers/<int:id>/', CliqueIdMembers.as_view()),    
+    path('cliqueAnnouncements/<str:name>/', CliqueAnnouncements.as_view()),  
     path('userInvitations/<str:username>/', UserInvitations.as_view()),
     path('invitationDetails/<str:inviteeEmail>/', InvitationDetails.as_view()),
     path('cliqueRequests/<str:cliqueName>/', CliqueRequests.as_view()),
     path('cliqueEvents/<str:name>/', CliqueEvents.as_view()),
-    path('userSoloEvents/<str:username>/', UserSoloEvents.as_view()),
+    path('userEvents/<str:username>/', UserEvents.as_view()),
     path('userSchedules/<str:username>/', UserSchedules.as_view()),
     path('scheduleTimeFrames/<int:scheduleId>/', ScheduleTimeFrames.as_view()),
     path('cliqueCliqueMesssages/<str:name>/', CliqueCliqueMessages.as_view()),
