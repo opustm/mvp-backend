@@ -277,11 +277,11 @@ class UserInvitations(APIView):
         except Invitation.DoesNotExist:
             return False
 
-    def get(self, request, name, format=None):
+    def get(self, request, username, format=None):
         userQuerySet = User.objects.values('id', 'username')
         userid=None
         for user in userQuerySet:
-            if user['username']==name:
+            if user['username']==username:
                 userid=user['id']
         if userid:
             invitationQuerySet=Invitation.objects.values('id', 'invitee')
