@@ -347,9 +347,6 @@ class InvitationDetails(APIView):
         inv.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
-
-
 class UserSchedules(APIView):
     permission_classes = (permissions.AllowAny,)
 
@@ -538,7 +535,6 @@ class UserToDos(APIView):
                 if toDos:
                     return Response(toDos, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
-
 
 def index(request):
     permission_classes = (permissions.AllowAny,)
